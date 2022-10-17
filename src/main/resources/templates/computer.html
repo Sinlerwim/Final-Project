@@ -21,7 +21,7 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/" class="nav-link px-2 text-white">Головна</a></li>
+                <li><a th:href="@{/}" class="nav-link px-2 text-white">Головна</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Про нас</a></li>
             </ul>
 
@@ -65,23 +65,25 @@
                 <div class="col-md-6">
                     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="0" class="active"
-                                    aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="1"
-                                    aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="2"
-                                    aria-label="Slide 3"></button>
+                            <button th:each="image, iterStat : ${computer.images}"
+                                    type="button" data-bs-target="#photoCarousel"
+                                    data-bs-slide-to="0"
+                                    th:attr="data-bs-slide-to=${iterStat.index},aria-label='Slide ' + ${iterStat.index}"
+                                    th:class="${iterStat.index == 0} ? 'active' : ''"></button>
+                            <!--                            <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="1"-->
+                            <!--                                    aria-label="Slide 2"></button>-->
+                            <!--                            <button type="button" data-bs-target="#photoCarousel" data-bs-slide-to="2"-->
+                            <!--                                    aria-label="Slide 3"></button>-->
                         </div>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="../../images/computer.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-item" th:each="image, iterStat : ${computer.images}"
+                                 th:classappend="${iterStat.index == 0} ? 'active' : ''">
+                                <img th:src="|data:image/jpg;base64, ${imageUtil.getImgData(image)}|"
+                                     class="d-block w-auto m-auto" style="max-height: 400px" alt="...">
                             </div>
-                            <div class="carousel-item">
-                                <img src="../../images/computer.jpg" class="d-block w-100" alt="...">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../../images/computer.jpg" class="d-block w-100" alt="...">
-                            </div>
+                            <!--                            <div class="carousel-item">-->
+                            <!--                                <img src="../../images/computer.jpg" class="d-block w-100" alt="...">-->
+                            <!--                            </div>-->
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel"
                                 data-bs-slide="prev">
@@ -100,7 +102,7 @@
                     <h1 th:text="${computer.model}"></h1>
                     <h5 class="mb-1" th:text="${computer.manufacturer}"></h5>
                     <div class="fs-4 mt-3">
-                        <!-- price --><span class="fw-bold text-dark">₴20000</span>
+                        <!-- price --><span class="fw-bold text-dark" th:text="${computer.price}"></span>
                     </div>
                     <div>
                         <p class="text-decoration-none text-dark mt-2">Є на складі: Так</p>
@@ -152,7 +154,8 @@
                                 <div class="mb-5">
                                     <!-- text -->
                                     <h4 class="mb-1">Заголовок</h4>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisi,
+                                    <p class="mb-0" th:text="${computer.description}">Lorem ipsum dolor sit amet,
+                                        consectetur adipiscing elit. Nisi,
                                         tellus iaculis urna
                                         bibendum
                                         in lacus, integer. Id imperdiet vitae varius sed magnis eu nisi nunc sit. Vel,
@@ -203,31 +206,41 @@
                                         </table>
                                     </div>
                                     <div class="col-12 col-lg-6">
-<!--                                        <table class="table table-striped">-->
-<!--                                            &lt;!&ndash; table &ndash;&gt;-->
-<!--                                            <tbody>-->
-<!--                                            <tr>-->
-<!--                                                <th>ASIN</th>-->
-<!--                                                <td>SB0025UJ75W</td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <th>Best Sellers Rank</th>-->
-<!--                                                <td>#2 in Fruits</td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <th>Date First Available</th>-->
-<!--                                                <td>30 April 2022</td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <th>Item Weight</th>-->
-<!--                                                <td>500g</td>-->
-<!--                                            </tr>-->
-<!--                                            <tr>-->
-<!--                                                <th>Generic Name</th>-->
-<!--                                                <td>Banana Robusta</td>-->
-<!--                                            </tr>-->
-<!--                                            </tbody>-->
-<!--                                        </table>-->
+                                        <table class="table table-striped">
+                                            <!-- table -->
+                                            <tbody>
+                                            <tr>
+                                                <th>Процесор</th>
+                                                <td th:text="${computer.processorManufacturer} + ' ' +
+                                                ${computer.processorModel} + ' ' + ${computer.processorFrequency}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Відеокарта</th>
+                                                <td th:text="${computer.videoCardManufacturer} + ' ' +
+                                                ${computer.videoCardModel} + ' ' + ${computer.vram}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Тип відеокарти</th>
+                                                <div th:switch="${computer.videoCardType.name}">
+                                                    <td th:case="'DISCRETE'">Дискретна</td>
+                                                    <td th:case="'INTEGRATED'">Вбудована</td>
+                                                </div>
+
+                                            </tr>
+                                            <tr>
+                                                <th>Накопичувач</th>
+                                                <td th:text="${computer.diskDriveName}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Тип накопичувача</th>
+                                                <td th:text="${computer.diskDriveType}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Обсяг пам'яті</th>
+                                                <td th:text="${computer.diskDriveCapacity}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -902,8 +915,8 @@
 </footer>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 
 </body>
