@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public final class ImageUtil {
 
-    public static String getImgData(byte[] bytes) {
-        return Base64.getEncoder().encodeToString(bytes);
+    public static String getImgData(Image image) {
+        return Base64.getEncoder().encodeToString(image.getBytes());
     }
 
     public static String getFirstImage(List<Image> images) {

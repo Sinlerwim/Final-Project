@@ -17,6 +17,7 @@ import com.finalproject.service.ComputerService;
 import com.finalproject.service.DiskDriveService;
 import com.finalproject.service.ProcessorService;
 import com.finalproject.service.VideoCardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class CreateController {
     private final DiskDriveService diskDriveService;
 
 
+    @Autowired
     public CreateController(ComputerService computerService, ProcessorService processorService,
                             VideoCardService videoCardService, DiskDriveService diskDriveService) {
         this.computerService = computerService;

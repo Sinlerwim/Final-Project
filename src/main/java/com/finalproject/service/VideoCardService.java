@@ -37,7 +37,7 @@ public class VideoCardService {
         return videoCardRepository.findById(id).get();
     }
 
-    public VideoCard save(VideoCard videoCard) {
-        return videoCardRepository.save(videoCard);
+    public String save(VideoCard videoCard) {
+        return videoCardRepository.save(videoCard).getId();
     }
 }

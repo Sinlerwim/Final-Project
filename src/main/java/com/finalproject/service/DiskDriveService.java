@@ -36,7 +36,7 @@ public class DiskDriveService {
         return diskDriveRepository.findById(id).get();
     }
 
-    public DiskDrive save(DiskDrive diskDrive) {
-        return diskDriveRepository.save(diskDrive);
+    public String save(DiskDrive diskDrive) {
+        return diskDriveRepository.save(diskDrive).getId();
     }
 }

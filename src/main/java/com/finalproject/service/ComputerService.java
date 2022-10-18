@@ -36,7 +36,7 @@ public class ComputerService {
         this.diskDriveService = diskDriveService;
     }
 
-    public ComputerDTO findById(String id) {
+    public ComputerDTO findByIdAndReturnDTO(String id) {
         return computerRepository.findById(id).map(ComputerMapper::toDTO).orElse(null);
     }
 
@@ -134,5 +134,9 @@ public class ComputerService {
 
     public String save(Computer computer) {
         return computerRepository.save(computer).getId();
+    }
+
+    public Computer findById(String id) {
+        return computerRepository.findById(id).get();
     }
 }

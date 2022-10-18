@@ -36,9 +36,9 @@ public class ComputerController {
 
     @GetMapping("/computer/{id}")
     public ModelAndView getById(@PathVariable("id") String id, ModelAndView modelAndView) {
-        ComputerDTO computerDTO = computerService.findById(id);
+        Computer computer = computerService.findById(id);
         modelAndView.addObject("imageUtil", new ImageUtil());
-        modelAndView.addObject("computer", computerDTO);
+        modelAndView.addObject("computer", computer);
         modelAndView.setViewName("computer");
         return modelAndView;
     }

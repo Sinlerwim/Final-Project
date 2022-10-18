@@ -2,24 +2,28 @@ package com.finalproject.mapper;
 
 import com.finalproject.dto.ComputerCreationDTO;
 import com.finalproject.dto.ComputerDTO;
+import com.finalproject.dto.ComputerUpdateDTO;
 import com.finalproject.model.*;
 import com.finalproject.service.DiskDriveService;
+import com.finalproject.service.ImageService;
 import com.finalproject.service.ProcessorService;
 import com.finalproject.service.VideoCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public final class ComputerMapper {
 
     @Autowired
-    private ComputerMapper(ProcessorService processorService, VideoCardService videoCardService, DiskDriveService diskDriveService) {
+    private ComputerMapper(ProcessorService processorService, VideoCardService videoCardService, DiskDriveService diskDriveService, ImageService imageService) {
         ComputerMapper.processorService = processorService;
         ComputerMapper.videoCardService = videoCardService;
         ComputerMapper.diskDriveService = diskDriveService;
+        ComputerMapper.imageService = imageService;
     }
 
     private static ProcessorService processorService;
@@ -27,6 +31,8 @@ public final class ComputerMapper {
     private static VideoCardService videoCardService;
 
     private static DiskDriveService diskDriveService;
+
+    private static ImageService imageService;
 
     public static ComputerDTO toDTO(Computer computer) {
         final ComputerDTO computerDTO = new ComputerDTO();
@@ -42,18 +48,28 @@ public final class ComputerMapper {
         computerDTO.setDescription(computer.getDescription());
         computerDTO.setPrice(computer.getPrice());
 
-        computerDTO.setProcessorManufacturer(computer.getProcessor().getManufacturer());
-        computerDTO.setProcessorModel(computer.getProcessor().getModel());
-        computerDTO.setProcessorFrequency(computer.getProcessor().getFrequency());
+        final Processor processor = computer.getProcessor();
+        if (processor != null) {
+            computerDTO.setProcessorManufacturer(processor.getManufacturer());
+            computerDTO.setProcessorModel(processor.getModel());
+            computerDTO.setProcessorFrequency(processor.getFrequency());
+        }
 
-        computerDTO.setVideoCardManufacturer(computer.getVideoCard().getManufacturer());
-        computerDTO.setVideoCardModel(computer.getVideoCard().getModel());
-        computerDTO.setVideoCardType(computer.getVideoCard().getType());
-        computerDTO.setVram(computer.getVideoCard().getVram());
+        final VideoCard videoCard = computer.getVideoCard();
+        if (videoCard != null) {
+            computerDTO.setVideoCardManufacturer(videoCard.getManufacturer());
+            computerDTO.setVideoCardModel(videoCard.getModel());
+            computerDTO.setVideoCardType(videoCard.getType());
+            computerDTO.setVram(videoCard.getVram());
+        }
 
-        computerDTO.setDiskDriveName(computer.getDiskDrive().getName());
-        computerDTO.setDiskDriveType(computer.getDiskDrive().getType());
-        computerDTO.setDiskDriveCapacity(computer.getDiskDrive().getCapacity());
+        final DiskDrive diskDrive = computer.getDiskDrive();
+        if (diskDrive != null) {
+            computerDTO.setDiskDriveName(diskDrive.getName());
+            computerDTO.setDiskDriveType(diskDrive.getType());
+            computerDTO.setDiskDriveCapacity(diskDrive.getCapacity());
+        }
+
         return computerDTO;
     }
 
@@ -64,9 +80,9 @@ public final class ComputerMapper {
         computer.setImages(
                 computerDTO.getImages().stream()
                         .map((bytes) -> {
-                            Image image = new Image();
-                            image.setBytes(bytes);
-                            return image;
+                                    Image image = new Image();
+                                    image.setBytes(bytes);
+                                    return image;
                                 }
                         ).collect(Collectors.toList()));
         computer.setModel(computerDTO.getModel());
@@ -75,6 +91,33 @@ public final class ComputerMapper {
         computer.setOperatingSystem(computerDTO.getOperatingSystem());
         computer.setPrice(computerDTO.getPrice());
         return computer;
+    }
+
+    public static ComputerUpdateDTO toComputerUpdateDTO(Computer computer) {
+        final ComputerUpdateDTO computerUpdateDTO = new ComputerUpdateDTO();
+        computerUpdateDTO.setId(computer.getId());
+        computerUpdateDTO.setImages(computer.getImages());
+        computerUpdateDTO.setManufacturer(computer.getManufacturer());
+        computerUpdateDTO.setModel(computer.getModel());
+        computerUpdateDTO.setRam(computer.getRam());
+        computerUpdateDTO.setRamType(computer.getRamType());
+        computerUpdateDTO.setOperatingSystem(computer.getOperatingSystem());
+        computerUpdateDTO.setDescription(computer.getDescription());
+        computerUpdateDTO.setPrice(computer.getPrice());
+
+        if (computer.getProcessor() != null) {
+            computerUpdateDTO.setProcessorId(computer.getProcessor().getId());
+        }
+
+        if (computer.getVideoCard() != null) {
+            computerUpdateDTO.setVideoCardId(computer.getVideoCard().getId());
+        }
+
+        if (computer.getDiskDrive() != null) {
+            computerUpdateDTO.setDiskDriveId(computer.getDiskDrive().getId());
+        }
+
+        return computerUpdateDTO;
     }
 
     public static Computer fromComputerCreationDTO(ComputerCreationDTO creationDTO) {
@@ -95,21 +138,51 @@ public final class ComputerMapper {
             }
         }).collect(Collectors.toList()));
 
-        computer.setProcessor(getProcessorFromCreationDTO(creationDTO));
-        computer.setVideoCard(getVideoCardFromCreationDTO(creationDTO));
-        computer.setDiskDrive(getDiskDriveFromCreationDTO(creationDTO));
+        computer.setProcessor(getProcessorById(creationDTO.getProcessorId()));
+        computer.setVideoCard(getVideoCardById(creationDTO.getVideoCardId()));
+        computer.setDiskDrive(getDiskDriveById(creationDTO.getDiskDriveId()));
         return computer;
     }
 
-    private static DiskDrive getDiskDriveFromCreationDTO(ComputerCreationDTO creationDTO) {
-        return diskDriveService.findById(creationDTO.getDiskDriveId());
+    private static DiskDrive getDiskDriveById(String id) {
+        return diskDriveService.findById(id);
     }
 
-    private static VideoCard getVideoCardFromCreationDTO(ComputerCreationDTO creationDTO) {
-        return videoCardService.findById(creationDTO.getVideoCardId());
+    private static VideoCard getVideoCardById(String id) {
+        return videoCardService.findById(id);
     }
 
-    private static Processor getProcessorFromCreationDTO(ComputerCreationDTO creationDTO) {
-        return processorService.findById(creationDTO.getProcessorId());
+    private static Processor getProcessorById(String id) {
+        return processorService.findById(id);
+    }
+
+    public static Computer fromComputerUpdateDTO(ComputerUpdateDTO updateDTO) {
+        Computer computer = new Computer();
+        computer.setId(updateDTO.getId());
+        computer.setManufacturer(updateDTO.getManufacturer());
+        computer.setModel(updateDTO.getModel());
+        computer.setRam(updateDTO.getRam());
+        computer.setRamType(updateDTO.getRamType());
+        computer.setOperatingSystem(updateDTO.getOperatingSystem());
+        computer.setPrice(updateDTO.getPrice());
+
+        List<Image> Images = imageService.getImagesByComputerId(updateDTO.getId());
+        if (updateDTO.getNewImages() != null) {
+            List<Image> newImages = updateDTO.getNewImages().stream().map(multipartFile -> {
+                try {
+                    Image image = new Image();
+                    image.setBytes(multipartFile.getBytes());
+                    return image;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).collect(Collectors.toList());
+            Images.addAll(newImages);
+        }
+        computer.setImages(Images);
+        computer.setProcessor(getProcessorById(updateDTO.getProcessorId()));
+        computer.setVideoCard(getVideoCardById(updateDTO.getVideoCardId()));
+        computer.setDiskDrive(getDiskDriveById(updateDTO.getDiskDriveId()));
+        return computer;
     }
 }

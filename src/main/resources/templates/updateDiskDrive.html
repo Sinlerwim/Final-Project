@@ -1,0 +1,127 @@
+<!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Final Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-laptop"
+                     viewBox="0 0 16 16">
+                    <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5h11zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2h-11zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5z"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a th:href="@{/}" class="nav-link px-2 text-white">Головна</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Про нас</a></li>
+            </ul>
+
+            <!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+            <!--                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">-->
+            <!--            </form>-->
+
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2">Вхід</button>
+                <button type="button" class="btn btn-warning">Реєстрація</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <h1 class="text-center fw-bold mt-3">Редагування</h1>
+    <h4 class="text-center fw-light">Накопичувач</h4>
+    <section class="py-4 px-3">
+
+        <form th:action="@{/update/disk-drive/__${diskDrive.id}__}" th:object="${diskDrive}" method="post"
+              enctype="multipart/form-data">
+            <div class="input-group mb-2 row">
+                <div class="col">
+                    <label for="diskDrive_name" class="mb-2">Назва</label>
+                    <input id="diskDrive_name" type="text" class="form-control" th:field="|*{name}|" required>
+                </div>
+                <div class="col">
+                    <label class="mb-2">Тип</label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="HDD">
+                            <input class="form-check-input" type="radio" name="diskDriveType" id="HDD" required
+                                   th:field="|*{type}|" value="HDD">
+                            HDD
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="SSD">
+                            <input class="form-check-input" type="radio" name="diskDrive_Type" id="SSD"
+                                   th:field="|*{type}|" value="SSD">
+                            SSD
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <label for="diskDrive_capacity" class="mb-2">Пам'ять</label>
+            <div class="input-group mb-3">
+                <input id="diskDrive_capacity" type="text" class="form-control" placeholder="2 Tb"
+                       th:field="|*{capacity}|" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
+
+        </form>
+
+        <div class="text-center mt-4 mb-3">
+            <h5 class="fw-bold">Накопичувачі</h5>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Назва</th>
+                <th scope="col">Ємність</th>
+                <th scope="col">Тип</th>
+                <th scope="col" style="width: 20%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d,iterStat : ${diskDrives}"
+                th:classappend="${diskDrive.id == d.id}? 'table-warning' : ''">
+                <th scope="row" th:text="${iterStat.index + 1}"></th>
+                <td th:text="${d.name}"></td>
+                <td th:text="${d.capacity}"></td>
+                <td th:text="${d.type}"></td>
+                <td>
+                    <a th:if="${diskDrive.id != d.id}"
+                       type="button" class="btn btn-outline-primary"
+                       th:href="@{/update/disk-drive/{id}(id = ${d.id})}">
+                        Редагувати
+                    </a>
+                    <a type="button" class="btn btn-outline-danger ms-2"
+                       th:href="@{/delete/disk-drive/{id}(id = ${d.id})}">
+                        Видалити
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer class="text-muted d-flex justify-content-center py-2">
+    <a href="#" class="opacity-50 link-dark">Back to top</a>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>

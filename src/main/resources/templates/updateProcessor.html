@@ -37,11 +37,11 @@
 </header>
 
 <main>
-    <h1 class="text-center fw-bold mt-3">Створення</h1>
+    <h1 class="text-center fw-bold mt-3">Редагування</h1>
     <h4 class="text-center fw-light">Процесор</h4>
     <section class="py-4 px-3">
 
-        <form th:action="@{/create/processor}" th:object="${processor}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/update/processor/__${processor.id}__}" th:object="${processor}" method="post" enctype="multipart/form-data">
             <div class="input-group mb-2 row">
                 <div class="col">
                     <label class="mb-1">Виробник<span class="text-danger">*</span></label>
@@ -70,7 +70,7 @@
                 <input id="processor_frequency" type="text" class="form-control" placeholder="3.7 GHz"
                        th:field="|*{frequency}|">
             </div>
-            <button type="submit" class="btn btn-primary mt-4">Створити</button>
+            <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
         </form>
 
                 <div class="text-center mt-4 mb-3">
@@ -87,18 +87,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="processor,iterStat : ${processors}">
+                    <tr th:each="p,iterStat : ${processors}"
+                        th:classappend="${processor.id == p.id}? 'table-warning' : ''">
                         <th scope="row" th:text="${iterStat.index + 1}"></th>
-                        <td th:text="${processor.manufacturer}"></td>
-                        <td th:text="${processor.model}"></td>
-                        <td th:text="${processor.frequency}"></td>
+                        <td th:text="${p.manufacturer}"></td>
+                        <td th:text="${p.model}"></td>
+                        <td th:text="${p.frequency}"></td>
                         <td>
-                            <a type="button" class="btn btn-outline-primary "
-                               th:href="@{/update/processor/{id}(id = ${processor.id})}">
+                            <a th:if="${processor.id != p.id}"
+                               type="button" class="btn btn-outline-primary "
+                               th:href="@{/update/processor/{id}(id = ${p.id})}">
                                 Редагувати
                             </a>
                             <a type="button" class="btn btn-outline-danger ms-2"
-                               th:href="@{/delete/processor/{id}(id = ${processor.id})}">
+                               th:href="@{/delete/processor/{id}(id = ${p.id})}">
                                 Видалити
                             </a>
                         </td>

@@ -104,7 +104,12 @@
         <td th:text="${videoCard.vram}"></td>
         <td th:text="${videoCard.type}"></td>
         <td>
-          <a type="button" class="btn btn-outline-danger"
+          <a
+             type="button" class="btn btn-outline-primary "
+             th:href="@{/update/video-card/{id}(id = ${videoCard.id})}">
+            Редагувати
+          </a>
+          <a type="button" class="btn btn-outline-danger ms-2"
              th:href="@{/delete/video-card/{id}(id = ${videoCard.id})}">
             Видалити
           </a>

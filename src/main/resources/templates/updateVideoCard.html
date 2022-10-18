@@ -37,70 +37,80 @@
 </header>
 
 <main>
-  <h1 class="text-center fw-bold mt-3">Створення</h1>
-  <h4 class="text-center fw-light">Накопичувач</h4>
+  <h1 class="text-center fw-bold mt-3">Редагування</h1>
+  <h4 class="text-center fw-light">Відеокарта</h4>
   <section class="py-4 px-3">
 
-    <form th:action="@{/create/disk-drive}" th:object="${diskDrive}" method="post" enctype="multipart/form-data">
-      <div class="input-group mb-2 row">
+    <form th:action="@{/update/video-card/__${videoCard.id}__}" th:object="${videoCard}" method="post" enctype="multipart/form-data">
+      <div class="input-group mb-3 row has-validation">
         <div class="col">
-          <label for="diskDrive_name" class="mb-2">Назва</label>
-          <input id="diskDrive_name" type="text" class="form-control" th:field="|*{name}|" required>
+          <label for="videoCard_manufacturer" class="mb-2">Виробник</label>
+          <input id="videoCard_manufacturer" type="text" class="form-control"
+                 th:field="|*{manufacturer}|" required>
+<!--          <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}" th:errors="${videoCard.manufacturer}"></div>-->
         </div>
         <div class="col">
+          <label for="videoCard_model" class="mb-2">Назва моделі</label>
+          <input id="videoCard_model" type="text" class="form-control" th:field="|*{model}|" required>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}" th:errors="${videoCard.model}"></div>
+        </div>
+      </div>
+      <div class="input-group mb-3 row">
+        <div class="col">
+          <label for="videoCard_vRam" class="mb-2">Пам'ять</label>
+          <input id="videoCard_vRam" type="text" class="form-control" placeholder="6144 Mb" th:field="|*{vram}|">
+        </div>
+        <div class="col has-validation">
           <label class="mb-2">Тип</label>
           <div class="form-check">
-            <label class="form-check-label" for="HDD">
-              <input class="form-check-input" type="radio" name="diskDriveType" id="HDD" required
-                     th:field="|*{type}|" value="HDD">
-              HDD
+            <label class="form-check-label" for="INTEGRATED">
+              <input class="form-check-input" type="radio" name="videoCardType" id="INTEGRATED"
+                     th:field="|*{type}|" value="INTEGRATED" required>
+              Вбудована
             </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label" for="SSD">
-              <input class="form-check-input" type="radio" name="diskDrive_Type" id="SSD"
-                     th:field="|*{type}|" value="SSD">
-              SSD
+            <label class="form-check-label" for="DISCRETE">
+              <input class="form-check-input" type="radio" name="videoCardType" id="DISCRETE"
+                     th:field="|*{type}|" value="DISCRETE">
+              Дискретна
             </label>
           </div>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('type')}" th:errors="${videoCard.type}"></div>
         </div>
       </div>
-      <label for="diskDrive_capacity" class="mb-2">Пам'ять</label>
-      <div class="input-group mb-3">
-        <input id="diskDrive_capacity" type="text" class="form-control" placeholder="2 Tb"
-               th:field="|*{capacity}|" required>
-      </div>
-
-      <button type="submit" class="btn btn-primary mt-4">Створити</button>
-
+      <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
     </form>
 
     <div class="text-center mt-4 mb-3">
-      <h5 class="fw-bold">Накопичувачі</h5>
+      <h5 class="fw-bold">Відеокарти</h5>
     </div>
     <table class="table">
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Назва</th>
-        <th scope="col">Ємність</th>
+        <th scope="col">Виробник</th>
+        <th scope="col">Модель</th>
+        <th scope="col">Пам'ять</th>
         <th scope="col">Тип</th>
-        <th scope="col" style="width: 20%"></th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="diskDrive,iterStat : ${diskDrives}">
+      <tr th:each="v,iterStat : ${videoCards}" th:classappend="${videoCard.id == v.id}? 'table-warning' : ''">
         <th scope="row" th:text="${iterStat.index + 1}"></th>
-        <td th:text="${diskDrive.name}"></td>
-        <td th:text="${diskDrive.capacity}"></td>
-        <td th:text="${diskDrive.type}"></td>
+        <td th:text="${v.manufacturer}"></td>
+        <td th:text="${v.model}"></td>
+        <td th:text="${v.vram}"></td>
+        <td th:text="${v.type}"></td>
         <td>
-          <a type="button" class="btn btn-outline-primary "
-             th:href="@{/update/disk-drive/{id}(id = ${diskDrive.id})}">
+          <a th:if="${videoCard.id != v.id}"
+             type="button" class="btn btn-outline-primary "
+             th:href="@{/update/video-card/{id}(id = ${v.id})}">
             Редагувати
           </a>
           <a type="button" class="btn btn-outline-danger ms-2"
-             th:href="@{/delete/disk-drive/{id}(id = ${diskDrive.id})}">
+             th:href="@{/delete/video-card/{id}(id = ${videoCard.id})}">
             Видалити
           </a>
         </td>

@@ -39,7 +39,7 @@ public class ProcessorService {
         return processorRepository.findById(id).get();
     }
 
-    public Processor save(Processor processor) {
-        return processorRepository.save(processor);
+    public String save(Processor processor) {
+        return processorRepository.save(processor).getId();
     }
 }

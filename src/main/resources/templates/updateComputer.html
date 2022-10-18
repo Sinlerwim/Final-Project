@@ -37,30 +37,31 @@
 </header>
 
 <main>
-    <h1 class="text-center fw-bold mt-3">Створення</h1>
+    <h1 class="text-center fw-bold mt-3">Редагування</h1>
     <h4 class="text-center fw-light">Компьютер</h4>
     <section class="py-4 px-3">
 
-        <form th:action="@{/create/computer}" th:object="${computer}" method="post"
+        <form th:action="@{/update/computer}" th:object="${computer}" th:method="PUT"
               enctype="multipart/form-data">
             <h5 class="text-center fw-bold mt-2 mb-4">Загальні характеристики</h5>
             <div class="input-group mb-3 row has-validation">
                 <div class="col">
+                    <input type="text" th:field="${computer.id}" hidden>
                     <label for="manufacturer" class="mb-2">Виробник<span class="text-danger">*</span></label>
-                    <input id="manufacturer" type="text" class="form-control" th:field="${computer.manufacturer}" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}" th:errors="${computer.manufacturer}"></div>
+                    <input id="manufacturer" type="text" class="form-control" th:field="${computer.manufacturer}"
+                           required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}"
+                         th:errors="${computer.manufacturer}"></div>
                 </div>
                 <div class="col">
                     <label for="model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
                     <input id="model" type="text" class="form-control" th:field="${computer.model}" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}" th:errors="${computer.model}"></div>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
+                         th:errors="${computer.model}"></div>
                 </div>
             </div>
-                                        <label for="img" class="mb-2">Фото</label>
-                                        <div class="input-group mb-3 pe-4">
-                                            <input type="file" class="form-control" id="img" accept="image/jpeg" multiple="multiple"
-                                                                   th:field="${computer.image}" required>
-                                        </div>
+
+
             <div class="input-group mb-3 row">
                 <div class="col">
                     <label for="ram" class="mb-2">Оперативна пам'ять</label>
@@ -89,6 +90,31 @@
                 <textarea class="form-control" th:field="|*{description}|"></textarea>
             </div>
 
+            <div class="container mt-4">
+                <h5 class="text-center mb-3">Фото</h5>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col" th:each="image,i : ${computer.images}">
+<!--                        <input th:field="${computer.images[__${i.index}__].id}" th:value="${computer.images[__${i.index}__].id}" hidden>-->
+<!--                        <input th:field="${computer.images[__${i.index}__].bytes}" th:value="${computer.images[__${i.index}__].bytes}" hidden>-->
+                        <div class="card shadow-sm">
+                            <img class="d-block" style="max-height: 400px"
+                                 th:src="|data:image/jpg;base64, ${imageUtil.getImgData(image)}|"
+                                 alt="image.jpg"/>
+                            <div class="card-body text-center">
+                                <a type="button" class="btn btn-outline-danger">
+                                    Видалити
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <label for="img" class="my-2">Додати фото</label>
+                        <div class="input-group mb-3 pe-4">
+                            <input type="file" class="form-control " id="img" accept="image/jpeg" multiple="multiple"
+                                   th:field="${computer.newImages}">
+                        </div>
 
             <div class="text-center mt-4 mb-3">
                 <h5 class="fw-bold">Процесор</h5>
@@ -104,6 +130,7 @@
                     <th scope="col">Виробник</th>
                     <th scope="col">Модель</th>
                     <th scope="col">Частота</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -113,7 +140,8 @@
                     <td>Немає</td>
                     <td>Немає</td>
                     <td>
-                        <input type="radio" name="processor" th:field="${computer.processorId}" th:value="${null}" required>
+                        <input type="radio" name="processor" th:field="${computer.processorId}" th:value="${null}"
+                               required>
                     </td>
                 </tr>
                 <tr th:each="processor,iterStat : ${processors}">
@@ -145,6 +173,7 @@
                     <th scope="col">Модель</th>
                     <th scope="col">Пам'ять</th>
                     <th scope="col">Тип</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -155,7 +184,8 @@
                     <td>Немає</td>
                     <td>Немає</td>
                     <td>
-                        <input type="radio" name="videoCard" th:field="${computer.videoCardId}" th:value="${null}" required>
+                        <input type="radio" name="videoCard" th:field="${computer.videoCardId}" th:value="${null}"
+                               required>
                     </td>
                 </tr>
                 <tr th:each="videoCard,iterStat : ${videoCards}">
@@ -166,7 +196,7 @@
                     <td th:text="${videoCard.type}"></td>
                     <td>
                         <input type="radio" name="videoCard" th:field="${computer.videoCardId}"
-                               th:value="${videoCard.Id}">
+                               th:value="${videoCard.id}">
                     </td>
                 </tr>
                 </tbody>
@@ -197,7 +227,8 @@
                     <td>Немає</td>
                     <td>Немає</td>
                     <td>
-                        <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}" th:value="${null}" required>
+                        <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}" th:value="${null}"
+                               required>
                     </td>
                 </tr>
                 <tr th:each="diskDrive,iterStat : ${diskDrives}">
@@ -213,7 +244,7 @@
                 </tbody>
             </table>
 
-            <button type="submit" class="btn btn-primary mt-4">Створити</button>
+            <button type="submit" class="btn btn-primary mt-4">Оновити</button>
         </form>
     </section>
 </main>

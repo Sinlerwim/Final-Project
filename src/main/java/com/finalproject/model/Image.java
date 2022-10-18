@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,4 +16,9 @@ public class Image {
     private String id;
 
     private byte[] bytes;
+
+
+    @ManyToOne
+    @JoinColumn(name = "computer_id")
+    private Computer computer;
 }
