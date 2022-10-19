@@ -40,76 +40,77 @@
     <h1 class="text-center fw-bold mt-3">Редагування</h1>
     <h4 class="text-center fw-light">Накопичувач</h4>
     <section class="py-4 px-3">
-
-        <form th:action="@{/update/disk-drive/__${diskDrive.id}__}" th:object="${diskDrive}" method="post"
-              enctype="multipart/form-data">
-            <div class="input-group mb-2 row">
-                <div class="col">
-                    <label for="diskDrive_name" class="mb-2">Назва</label>
-                    <input id="diskDrive_name" type="text" class="form-control" th:field="|*{name}|" required>
-                </div>
-                <div class="col">
-                    <label class="mb-2">Тип</label>
-                    <div class="form-check">
-                        <label class="form-check-label" for="HDD">
-                            <input class="form-check-input" type="radio" name="diskDriveType" id="HDD" required
-                                   th:field="|*{type}|" value="HDD">
-                            HDD
-                        </label>
+        <div class="container">
+            <form th:action="@{/update/disk-drive/__${diskDrive.id}__}" th:object="${diskDrive}" method="post"
+                  enctype="multipart/form-data">
+                <div class="input-group mb-2 row">
+                    <div class="col">
+                        <label for="diskDrive_name" class="mb-2">Назва</label>
+                        <input id="diskDrive_name" type="text" class="form-control" th:field="|*{name}|" required>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="SSD">
-                            <input class="form-check-input" type="radio" name="diskDrive_Type" id="SSD"
-                                   th:field="|*{type}|" value="SSD">
-                            SSD
-                        </label>
+                    <div class="col">
+                        <label class="mb-2">Тип</label>
+                        <div class="form-check">
+                            <label class="form-check-label" for="HDD">
+                                <input class="form-check-input" type="radio" name="diskDriveType" id="HDD" required
+                                       th:field="|*{type}|" value="HDD">
+                                HDD
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="SSD">
+                                <input class="form-check-input" type="radio" name="diskDrive_Type" id="SSD"
+                                       th:field="|*{type}|" value="SSD">
+                                SSD
+                            </label>
+                        </div>
                     </div>
                 </div>
+                <label for="diskDrive_capacity" class="mb-2">Пам'ять</label>
+                <div class="input-group mb-3">
+                    <input id="diskDrive_capacity" type="text" class="form-control" placeholder="2 Tb"
+                           th:field="|*{capacity}|" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
+
+            </form>
+
+            <div class="text-center mt-4 mb-3">
+                <h5 class="fw-bold">Накопичувачі</h5>
             </div>
-            <label for="diskDrive_capacity" class="mb-2">Пам'ять</label>
-            <div class="input-group mb-3">
-                <input id="diskDrive_capacity" type="text" class="form-control" placeholder="2 Tb"
-                       th:field="|*{capacity}|" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
-
-        </form>
-
-        <div class="text-center mt-4 mb-3">
-            <h5 class="fw-bold">Накопичувачі</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Назва</th>
+                    <th scope="col">Ємність</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col" style="width: 20%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d,iterStat : ${diskDrives}"
+                    th:classappend="${diskDrive.id == d.id}? 'table-warning' : ''">
+                    <th scope="row" th:text="${iterStat.index + 1}"></th>
+                    <td th:text="${d.name}"></td>
+                    <td th:text="${d.capacity}"></td>
+                    <td th:text="${d.type}"></td>
+                    <td>
+                        <a th:if="${diskDrive.id != d.id}"
+                           type="button" class="btn btn-outline-primary"
+                           th:href="@{/update/disk-drive/{id}(id = ${d.id})}">
+                            Редагувати
+                        </a>
+                        <a type="button" class="btn btn-outline-danger ms-2"
+                           th:href="@{/delete/disk-drive/{id}(id = ${d.id})}">
+                            Видалити
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Назва</th>
-                <th scope="col">Ємність</th>
-                <th scope="col">Тип</th>
-                <th scope="col" style="width: 20%"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="d,iterStat : ${diskDrives}"
-                th:classappend="${diskDrive.id == d.id}? 'table-warning' : ''">
-                <th scope="row" th:text="${iterStat.index + 1}"></th>
-                <td th:text="${d.name}"></td>
-                <td th:text="${d.capacity}"></td>
-                <td th:text="${d.type}"></td>
-                <td>
-                    <a th:if="${diskDrive.id != d.id}"
-                       type="button" class="btn btn-outline-primary"
-                       th:href="@{/update/disk-drive/{id}(id = ${d.id})}">
-                        Редагувати
-                    </a>
-                    <a type="button" class="btn btn-outline-danger ms-2"
-                       th:href="@{/delete/disk-drive/{id}(id = ${d.id})}">
-                        Видалити
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </section>
 </main>
 

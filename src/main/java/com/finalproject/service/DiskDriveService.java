@@ -39,4 +39,10 @@ public class DiskDriveService {
     public String save(DiskDrive diskDrive) {
         return diskDriveRepository.save(diskDrive).getId();
     }
+
+    public void delete(String id) {
+        if(diskDriveRepository.existsById(id)) {
+            diskDriveRepository.deleteById(id);
+        }
+    }
 }

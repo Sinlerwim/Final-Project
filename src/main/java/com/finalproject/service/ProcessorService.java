@@ -42,4 +42,10 @@ public class ProcessorService {
     public String save(Processor processor) {
         return processorRepository.save(processor).getId();
     }
+
+    public void delete(String id) {
+        if (processorRepository.existsById(id)) {
+            processorRepository.deleteById(id);
+        }
+    }
 }

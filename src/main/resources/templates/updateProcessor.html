@@ -40,73 +40,75 @@
     <h1 class="text-center fw-bold mt-3">Редагування</h1>
     <h4 class="text-center fw-light">Процесор</h4>
     <section class="py-4 px-3">
-
-        <form th:action="@{/update/processor/__${processor.id}__}" th:object="${processor}" method="post" enctype="multipart/form-data">
-            <div class="input-group mb-2 row">
-                <div class="col">
-                    <label class="mb-1">Виробник<span class="text-danger">*</span></label>
-                    <div class="form-check">
-                        <label class="form-check-label" for="Intel">
-                            <input class="form-check-input" type="radio" name="processor_type" id="Intel"
-                                   th:field="|*{manufacturer}|" value="Intel" required>
-                            Intel
-                        </label>
+        <div class="container">
+            <form th:action="@{/update/processor/__${processor.id}__}" th:object="${processor}" method="post"
+                  enctype="multipart/form-data">
+                <div class="input-group mb-2 row">
+                    <div class="col">
+                        <label class="mb-1">Виробник<span class="text-danger">*</span></label>
+                        <div class="form-check">
+                            <label class="form-check-label" for="Intel">
+                                <input class="form-check-input" type="radio" name="processor_type" id="Intel"
+                                       th:field="|*{manufacturer}|" value="Intel" required>
+                                Intel
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="Amd">
+                                <input class="form-check-input" type="radio" name="processor_type" id="Amd"
+                                       th:field="|*{manufacturer}|" value="AMD">
+                                Amd
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="Amd">
-                            <input class="form-check-input" type="radio" name="processor_type" id="Amd"
-                                   th:field="|*{manufacturer}|" value="AMD">
-                            Amd
-                        </label>
+                    <div class="col">
+                        <label for="processor_model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
+                        <input id="processor_model" type="text" class="form-control" th:field="|*{model}|" required>
                     </div>
                 </div>
-                <div class="col">
-                    <label for="processor_model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
-                    <input id="processor_model" type="text" class="form-control" th:field="|*{model}|" required>
+                <div>
+                    <label for="processor_frequency" class="mb-2">Частота</label>
+                    <input id="processor_frequency" type="text" class="form-control" placeholder="3.7 GHz"
+                           th:field="|*{frequency}|">
                 </div>
-            </div>
-            <div>
-                <label for="processor_frequency" class="mb-2">Частота</label>
-                <input id="processor_frequency" type="text" class="form-control" placeholder="3.7 GHz"
-                       th:field="|*{frequency}|">
-            </div>
-            <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
-        </form>
+                <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
+            </form>
 
-                <div class="text-center mt-4 mb-3">
-                    <h5 class="fw-bold">Процесори</h5>
-                </div>
-                <table class="table ">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Виробник</th>
-                        <th scope="col">Модель</th>
-                        <th scope="col">Частота</th>
-                        <th scope="col" style="width: 20%"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="p,iterStat : ${processors}"
-                        th:classappend="${processor.id == p.id}? 'table-warning' : ''">
-                        <th scope="row" th:text="${iterStat.index + 1}"></th>
-                        <td th:text="${p.manufacturer}"></td>
-                        <td th:text="${p.model}"></td>
-                        <td th:text="${p.frequency}"></td>
-                        <td>
-                            <a th:if="${processor.id != p.id}"
-                               type="button" class="btn btn-outline-primary "
-                               th:href="@{/update/processor/{id}(id = ${p.id})}">
-                                Редагувати
-                            </a>
-                            <a type="button" class="btn btn-outline-danger ms-2"
-                               th:href="@{/delete/processor/{id}(id = ${p.id})}">
-                                Видалити
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="text-center mt-4 mb-3">
+                <h5 class="fw-bold">Процесори</h5>
+            </div>
+            <table class="table ">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Виробник</th>
+                    <th scope="col">Модель</th>
+                    <th scope="col">Частота</th>
+                    <th scope="col" style="width: 20%"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p,iterStat : ${processors}"
+                    th:classappend="${processor.id == p.id}? 'table-warning' : ''">
+                    <th scope="row" th:text="${iterStat.index + 1}"></th>
+                    <td th:text="${p.manufacturer}"></td>
+                    <td th:text="${p.model}"></td>
+                    <td th:text="${p.frequency}"></td>
+                    <td>
+                        <a th:if="${processor.id != p.id}"
+                           type="button" class="btn btn-outline-primary "
+                           th:href="@{/update/processor/{id}(id = ${p.id})}">
+                            Редагувати
+                        </a>
+                        <a type="button" class="btn btn-outline-danger ms-2"
+                           th:href="@{/delete/processor/{id}(id = ${p.id})}">
+                            Видалити
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </main>
 

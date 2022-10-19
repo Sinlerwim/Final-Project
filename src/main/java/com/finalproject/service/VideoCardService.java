@@ -40,4 +40,10 @@ public class VideoCardService {
     public String save(VideoCard videoCard) {
         return videoCardRepository.save(videoCard).getId();
     }
+
+    public void delete(String id) {
+        if(videoCardRepository.existsById(id)) {
+            videoCardRepository.deleteById(id);
+        }
+    }
 }

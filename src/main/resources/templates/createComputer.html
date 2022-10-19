@@ -40,181 +40,188 @@
     <h1 class="text-center fw-bold mt-3">Створення</h1>
     <h4 class="text-center fw-light">Компьютер</h4>
     <section class="py-4 px-3">
+        <div class="container">
+            <form th:action="@{/create/computer}" th:object="${computer}" method="post"
+                  enctype="multipart/form-data">
+                <h5 class="text-center fw-bold mt-2 mb-4">Загальні характеристики</h5>
+                <div class="input-group mb-3 row has-validation">
+                    <div class="col">
+                        <label for="manufacturer" class="mb-2">Виробник<span class="text-danger">*</span></label>
+                        <input id="manufacturer" type="text" class="form-control" th:field="${computer.manufacturer}"
+                               required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}"
+                             th:errors="${computer.manufacturer}"></div>
+                    </div>
+                    <div class="col">
+                        <label for="model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
+                        <input id="model" type="text" class="form-control" th:field="${computer.model}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
+                             th:errors="${computer.model}"></div>
+                    </div>
+                </div>
+                <label for="img" class="mb-2">Фото</label>
+                <div class="input-group mb-3 pe-4">
+                    <input type="file" class="form-control" id="img" accept="image/jpeg" multiple="multiple"
+                           th:field="${computer.image}" required>
+                </div>
+                <div class="input-group mb-3 row">
+                    <div class="col">
+                        <label for="ram" class="mb-2">Оперативна пам'ять</label>
+                        <input id="ram" type="text" class="form-control" placeholder="4096 Mb"
+                               th:field="${computer.ram}">
+                    </div>
+                    <div class="col">
+                        <label for="ramType" class="mb-2">Тип пам'яті</label>
+                        <input id="ramType" type="text" class="form-control" placeholder="DDR4"
+                               th:field="${computer.ramType}">
+                    </div>
+                </div>
+                <div class="input-group mb-3 row">
+                    <div class="col">
+                        <label for="operatingSystem" class="mb-2">Операційна система</label>
+                        <input id="operatingSystem" type="text" class="form-control"
+                               th:field="${computer.operatingSystem}">
+                    </div>
+                    <div class="col">
+                        <label for="price" class="mb-2">Ціна<span class="text-danger">*</span></label>
+                        <input id="price" type="text" class="form-control" th:field="${computer.price}">
+                    </div>
+                </div>
+                <div class="input-group pe-4">
+                    <span class="input-group-text">Опис</span>
+                    <textarea class="form-control" th:field="|*{description}|"></textarea>
+                </div>
 
-        <form th:action="@{/create/computer}" th:object="${computer}" method="post"
-              enctype="multipart/form-data">
-            <h5 class="text-center fw-bold mt-2 mb-4">Загальні характеристики</h5>
-            <div class="input-group mb-3 row has-validation">
-                <div class="col">
-                    <label for="manufacturer" class="mb-2">Виробник<span class="text-danger">*</span></label>
-                    <input id="manufacturer" type="text" class="form-control" th:field="${computer.manufacturer}" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}" th:errors="${computer.manufacturer}"></div>
-                </div>
-                <div class="col">
-                    <label for="model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
-                    <input id="model" type="text" class="form-control" th:field="${computer.model}" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}" th:errors="${computer.model}"></div>
-                </div>
-            </div>
-                                        <label for="img" class="mb-2">Фото</label>
-                                        <div class="input-group mb-3 pe-4">
-                                            <input type="file" class="form-control" id="img" accept="image/jpeg" multiple="multiple"
-                                                                   th:field="${computer.image}" required>
-                                        </div>
-            <div class="input-group mb-3 row">
-                <div class="col">
-                    <label for="ram" class="mb-2">Оперативна пам'ять</label>
-                    <input id="ram" type="text" class="form-control" placeholder="4096 Mb"
-                           th:field="${computer.ram}">
-                </div>
-                <div class="col">
-                    <label for="ramType" class="mb-2">Тип пам'яті</label>
-                    <input id="ramType" type="text" class="form-control" placeholder="DDR4"
-                           th:field="${computer.ramType}">
-                </div>
-            </div>
-            <div class="input-group mb-3 row">
-                <div class="col">
-                    <label for="operatingSystem" class="mb-2">Операційна система</label>
-                    <input id="operatingSystem" type="text" class="form-control"
-                           th:field="${computer.operatingSystem}">
-                </div>
-                <div class="col">
-                    <label for="price" class="mb-2">Ціна<span class="text-danger">*</span></label>
-                    <input id="price" type="text" class="form-control" th:field="${computer.price}">
-                </div>
-            </div>
-            <div class="input-group pe-4">
-                <span class="input-group-text">Опис</span>
-                <textarea class="form-control" th:field="|*{description}|"></textarea>
-            </div>
 
-
-            <div class="text-center mt-4 mb-3">
-                <h5 class="fw-bold">Процесор</h5>
-                <div class="d-flex justify-content-between align-items-center float-end">
-                    <a th:href="@{/create/processor}" target="_blank"
-                       type="button" class="btn btn-outline-primary">Додати процесор</a>
+                <div class="text-center mt-4 mb-3">
+                    <h5 class="fw-bold">Процесор</h5>
+                    <div class="d-flex justify-content-between align-items-center float-end">
+                        <a th:href="@{/create/processor}" target="_blank"
+                           type="button" class="btn btn-outline-primary">Додати процесор</a>
+                    </div>
                 </div>
-            </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Виробник</th>
-                    <th scope="col">Модель</th>
-                    <th scope="col">Частота</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">0</th>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>
-                        <input type="radio" name="processor" th:field="${computer.processorId}" th:value="${null}" required>
-                    </td>
-                </tr>
-                <tr th:each="processor,iterStat : ${processors}">
-                    <th scope="row" th:text="${iterStat.index + 1}"></th>
-                    <td th:text="${processor.manufacturer}"></td>
-                    <td th:text="${processor.model}"></td>
-                    <td th:text="${processor.frequency}"></td>
-                    <td>
-                        <input type="radio" name="processor" th:field="${computer.processorId}"
-                               th:value="${processor.id}">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Виробник</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col">Частота</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">0</th>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>
+                            <input type="radio" name="processor" th:field="${computer.processorId}" th:value="${null}"
+                                   required>
+                        </td>
+                    </tr>
+                    <tr th:each="processor,iterStat : ${processors}">
+                        <th scope="row" th:text="${iterStat.index + 1}"></th>
+                        <td th:text="${processor.manufacturer}"></td>
+                        <td th:text="${processor.model}"></td>
+                        <td th:text="${processor.frequency}"></td>
+                        <td>
+                            <input type="radio" name="processor" th:field="${computer.processorId}"
+                                   th:value="${processor.id}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <div class="text-center mt-4 mb-3">
-                <h5 class="fw-bold">Відеокарта</h5>
-                <div class="d-flex justify-content-between align-items-center float-end">
-                    <a th:href="@{/create/video-card}" target="_blank"
-                       type="button" class="btn btn-outline-primary">Додати відеокарту</a>
+                <div class="text-center mt-4 mb-3">
+                    <h5 class="fw-bold">Відеокарта</h5>
+                    <div class="d-flex justify-content-between align-items-center float-end">
+                        <a th:href="@{/create/video-card}" target="_blank"
+                           type="button" class="btn btn-outline-primary">Додати відеокарту</a>
+                    </div>
                 </div>
-            </div>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Виробник</th>
-                    <th scope="col">Модель</th>
-                    <th scope="col">Пам'ять</th>
-                    <th scope="col">Тип</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">0</th>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>
-                        <input type="radio" name="videoCard" th:field="${computer.videoCardId}" th:value="${null}" required>
-                    </td>
-                </tr>
-                <tr th:each="videoCard,iterStat : ${videoCards}">
-                    <th scope="row" th:text="${iterStat.index + 1}"></th>
-                    <td th:text="${videoCard.manufacturer}"></td>
-                    <td th:text="${videoCard.model}"></td>
-                    <td th:text="${videoCard.vram}"></td>
-                    <td th:text="${videoCard.type}"></td>
-                    <td>
-                        <input type="radio" name="videoCard" th:field="${computer.videoCardId}"
-                               th:value="${videoCard.Id}">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Виробник</th>
+                        <th scope="col">Модель</th>
+                        <th scope="col">Пам'ять</th>
+                        <th scope="col">Тип</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">0</th>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>
+                            <input type="radio" name="videoCard" th:field="${computer.videoCardId}" th:value="${null}"
+                                   required>
+                        </td>
+                    </tr>
+                    <tr th:each="videoCard,iterStat : ${videoCards}">
+                        <th scope="row" th:text="${iterStat.index + 1}"></th>
+                        <td th:text="${videoCard.manufacturer}"></td>
+                        <td th:text="${videoCard.model}"></td>
+                        <td th:text="${videoCard.vram}"></td>
+                        <td th:text="${videoCard.type}"></td>
+                        <td>
+                            <input type="radio" name="videoCard" th:field="${computer.videoCardId}"
+                                   th:value="${videoCard.Id}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <div class="text-center mt-4 mb-3">
-                <h5 class="fw-bold">Накопичувач</h5>
-                <div class="d-flex justify-content-between align-items-center float-end">
-                    <a th:href="@{/create/disk-drive}" target="_blank"
-                       type="button" class="btn btn-outline-primary">Додати накопичувач</a>
+                <div class="text-center mt-4 mb-3">
+                    <h5 class="fw-bold">Накопичувач</h5>
+                    <div class="d-flex justify-content-between align-items-center float-end">
+                        <a th:href="@{/create/disk-drive}" target="_blank"
+                           type="button" class="btn btn-outline-primary">Додати накопичувач</a>
+                    </div>
                 </div>
-            </div>
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Назва</th>
-                    <th scope="col">Ємкість</th>
-                    <th scope="col">Тип</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">0</th>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>Немає</td>
-                    <td>
-                        <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}" th:value="${null}" required>
-                    </td>
-                </tr>
-                <tr th:each="diskDrive,iterStat : ${diskDrives}">
-                    <th scope="row" th:text="${iterStat.index + 1}"></th>
-                    <td th:text="${diskDrive.name}"></td>
-                    <td th:text="${diskDrive.capacity}"></td>
-                    <td th:text="${diskDrive.type}"></td>
-                    <td>
-                        <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}"
-                               th:value="${diskDrive.Id}">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Назва</th>
+                        <th scope="col">Ємкість</th>
+                        <th scope="col">Тип</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">0</th>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>Немає</td>
+                        <td>
+                            <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}" th:value="${null}"
+                                   required>
+                        </td>
+                    </tr>
+                    <tr th:each="diskDrive,iterStat : ${diskDrives}">
+                        <th scope="row" th:text="${iterStat.index + 1}"></th>
+                        <td th:text="${diskDrive.name}"></td>
+                        <td th:text="${diskDrive.capacity}"></td>
+                        <td th:text="${diskDrive.type}"></td>
+                        <td>
+                            <input type="radio" name="diskDrive" th:field="${computer.diskDriveId}"
+                                   th:value="${diskDrive.Id}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <button type="submit" class="btn btn-primary mt-4">Створити</button>
-        </form>
+                <button type="submit" class="btn btn-primary mt-4">Створити</button>
+            </form>
+        </div>
     </section>
 </main>
 

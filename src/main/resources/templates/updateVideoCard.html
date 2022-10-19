@@ -2,126 +2,131 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Final Project</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Final Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <header class="p-3 bg-dark text-white">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-laptop"
-             viewBox="0 0 16 16">
-          <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5h11zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2h-11zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5z"/>
-        </svg>
-      </a>
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-laptop"
+                     viewBox="0 0 16 16">
+                    <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5h11zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2h-11zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5z"/>
+                </svg>
+            </a>
 
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a th:href="@{/}" class="nav-link px-2 text-white">Головна</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Про нас</a></li>
-      </ul>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a th:href="@{/}" class="nav-link px-2 text-white">Головна</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Про нас</a></li>
+            </ul>
 
-      <!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
-      <!--                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">-->
-      <!--            </form>-->
+            <!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+            <!--                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">-->
+            <!--            </form>-->
 
-      <div class="text-end">
-        <button type="button" class="btn btn-outline-light me-2">Вхід</button>
-        <button type="button" class="btn btn-warning">Реєстрація</button>
-      </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2">Вхід</button>
+                <button type="button" class="btn btn-warning">Реєстрація</button>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <main>
-  <h1 class="text-center fw-bold mt-3">Редагування</h1>
-  <h4 class="text-center fw-light">Відеокарта</h4>
-  <section class="py-4 px-3">
+    <h1 class="text-center fw-bold mt-3">Редагування</h1>
+    <h4 class="text-center fw-light">Відеокарта</h4>
+    <section class="py-4 px-3">
+        <div class="container">
+            <form th:action="@{/update/video-card/__${videoCard.id}__}" th:object="${videoCard}" method="post"
+                  enctype="multipart/form-data">
+                <div class="input-group mb-3 row has-validation">
+                    <div class="col">
+                        <label for="videoCard_manufacturer" class="mb-2">Виробник</label>
+                        <input id="videoCard_manufacturer" type="text" class="form-control"
+                               th:field="|*{manufacturer}|" required>
+                        <!--          <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}" th:errors="${videoCard.manufacturer}"></div>-->
+                    </div>
+                    <div class="col">
+                        <label for="videoCard_model" class="mb-2">Назва моделі</label>
+                        <input id="videoCard_model" type="text" class="form-control" th:field="|*{model}|" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}"
+                             th:errors="${videoCard.model}"></div>
+                    </div>
+                </div>
+                <div class="input-group mb-3 row">
+                    <div class="col">
+                        <label for="videoCard_vRam" class="mb-2">Пам'ять</label>
+                        <input id="videoCard_vRam" type="text" class="form-control" placeholder="6144 Mb"
+                               th:field="|*{vram}|">
+                    </div>
+                    <div class="col has-validation">
+                        <label class="mb-2">Тип</label>
+                        <div class="form-check">
+                            <label class="form-check-label" for="INTEGRATED">
+                                <input class="form-check-input" type="radio" name="videoCardType" id="INTEGRATED"
+                                       th:field="|*{type}|" value="INTEGRATED" required>
+                                Вбудована
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="DISCRETE">
+                                <input class="form-check-input" type="radio" name="videoCardType" id="DISCRETE"
+                                       th:field="|*{type}|" value="DISCRETE">
+                                Дискретна
+                            </label>
+                        </div>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('type')}"
+                             th:errors="${videoCard.type}"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
+            </form>
 
-    <form th:action="@{/update/video-card/__${videoCard.id}__}" th:object="${videoCard}" method="post" enctype="multipart/form-data">
-      <div class="input-group mb-3 row has-validation">
-        <div class="col">
-          <label for="videoCard_manufacturer" class="mb-2">Виробник</label>
-          <input id="videoCard_manufacturer" type="text" class="form-control"
-                 th:field="|*{manufacturer}|" required>
-<!--          <div class="invalid-feedback" th:if="${#fields.hasErrors('manufacturer')}" th:errors="${videoCard.manufacturer}"></div>-->
+            <div class="text-center mt-4 mb-3">
+                <h5 class="fw-bold">Відеокарти</h5>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Виробник</th>
+                    <th scope="col">Модель</th>
+                    <th scope="col">Пам'ять</th>
+                    <th scope="col">Тип</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="v,iterStat : ${videoCards}" th:classappend="${videoCard.id == v.id}? 'table-warning' : ''">
+                    <th scope="row" th:text="${iterStat.index + 1}"></th>
+                    <td th:text="${v.manufacturer}"></td>
+                    <td th:text="${v.model}"></td>
+                    <td th:text="${v.vram}"></td>
+                    <td th:text="${v.type}"></td>
+                    <td>
+                        <a th:if="${videoCard.id != v.id}"
+                           type="button" class="btn btn-outline-primary "
+                           th:href="@{/update/video-card/{id}(id = ${v.id})}">
+                            Редагувати
+                        </a>
+                        <a type="button" class="btn btn-outline-danger ms-2"
+                           th:href="@{/delete/video-card/{id}(id = ${videoCard.id})}">
+                            Видалити
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="col">
-          <label for="videoCard_model" class="mb-2">Назва моделі</label>
-          <input id="videoCard_model" type="text" class="form-control" th:field="|*{model}|" required>
-          <div class="invalid-feedback" th:if="${#fields.hasErrors('model')}" th:errors="${videoCard.model}"></div>
-        </div>
-      </div>
-      <div class="input-group mb-3 row">
-        <div class="col">
-          <label for="videoCard_vRam" class="mb-2">Пам'ять</label>
-          <input id="videoCard_vRam" type="text" class="form-control" placeholder="6144 Mb" th:field="|*{vram}|">
-        </div>
-        <div class="col has-validation">
-          <label class="mb-2">Тип</label>
-          <div class="form-check">
-            <label class="form-check-label" for="INTEGRATED">
-              <input class="form-check-input" type="radio" name="videoCardType" id="INTEGRATED"
-                     th:field="|*{type}|" value="INTEGRATED" required>
-              Вбудована
-            </label>
-          </div>
-          <div class="form-check">
-            <label class="form-check-label" for="DISCRETE">
-              <input class="form-check-input" type="radio" name="videoCardType" id="DISCRETE"
-                     th:field="|*{type}|" value="DISCRETE">
-              Дискретна
-            </label>
-          </div>
-          <div class="invalid-feedback" th:if="${#fields.hasErrors('type')}" th:errors="${videoCard.type}"></div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary mt-4">Зберегти</button>
-    </form>
-
-    <div class="text-center mt-4 mb-3">
-      <h5 class="fw-bold">Відеокарти</h5>
-    </div>
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Виробник</th>
-        <th scope="col">Модель</th>
-        <th scope="col">Пам'ять</th>
-        <th scope="col">Тип</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="v,iterStat : ${videoCards}" th:classappend="${videoCard.id == v.id}? 'table-warning' : ''">
-        <th scope="row" th:text="${iterStat.index + 1}"></th>
-        <td th:text="${v.manufacturer}"></td>
-        <td th:text="${v.model}"></td>
-        <td th:text="${v.vram}"></td>
-        <td th:text="${v.type}"></td>
-        <td>
-          <a th:if="${videoCard.id != v.id}"
-             type="button" class="btn btn-outline-primary "
-             th:href="@{/update/video-card/{id}(id = ${v.id})}">
-            Редагувати
-          </a>
-          <a type="button" class="btn btn-outline-danger ms-2"
-             th:href="@{/delete/video-card/{id}(id = ${videoCard.id})}">
-            Видалити
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </section>
+    </section>
 </main>
 
 <footer class="text-muted d-flex justify-content-center py-2">
-  <a href="#" class="opacity-50 link-dark">Back to top</a>
+    <a href="#" class="opacity-50 link-dark">Back to top</a>
 </footer>
 
 
