@@ -1,0 +1,223 @@
+<!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Final Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<header class="p-3 bg-dark text-white">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-laptop"
+                     viewBox="0 0 16 16">
+                    <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5h11zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2h-11zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5z"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a th:href="@{/}" class="nav-link px-2 text-white">Головна</a></li>
+                <li><a href="#" class="nav-link px-2 text-white">Про нас</a></li>
+            </ul>
+
+            <!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
+            <!--                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">-->
+            <!--            </form>-->
+
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2">Вхід</button>
+                <button type="button" class="btn btn-warning">Реєстрація</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <h1 class="text-center fw-bold mt-3">Створення</h1>
+    <h4 class="text-center fw-light">Комп'ютер</h4>
+    <section class="py-4 px-3">
+
+        <form th:action="@{/create/computer}" th:object="${computer}" method="post" enctype="multipart/form-data">
+            <h5 class="text-center fw-bold mt-2 mb-4">Загальні характеристики</h5>
+            <div class="input-group mb-3 row">
+                <div class="col">
+                    <label for="manufacturer" class="mb-2">Виробник<span class="text-danger">*</span></label>
+                    <input id="manufacturer" type="text" class="form-control" th:field="${computer.manufacturer}">
+                </div>
+                <div class="col">
+                    <label for="model" class="mb-2">Назва моделі<span class="text-danger">*</span></label>
+                    <input id="model" type="text" class="form-control" th:field="${computer.model}">
+                </div>
+            </div>
+            <label for="img" class="mb-2">Фото</label>
+            <div class="input-group mb-3 pe-4">
+                <input type="file" class="form-control" id="img" accept="image/jpeg" multiple="multiple"
+                                       th:field="${computer.image}">
+            </div>
+            <div class="input-group mb-3 row">
+                <div class="col">
+                    <label for="ram" class="mb-2">Оперативна пам'ять</label>
+                    <input id="ram" type="text" class="form-control" placeholder="4096 Mb" th:field="${computer.ram}">
+                </div>
+                <div class="col">
+                    <label for="ramType" class="mb-2">Тип пам'яті</label>
+                    <input id="ramType" type="text" class="form-control" placeholder="DDR4"
+                           th:field="${computer.ramType}">
+                </div>
+            </div>
+            <div class="input-group mb-3 row">
+                <div class="col">
+                    <label for="operatingSystem" class="mb-2">Операційна система</label>
+                    <input id="operatingSystem" type="text" class="form-control" th:field="${computer.operatingSystem}">
+                </div>
+                <div class="col">
+                    <label for="price" class="mb-2">Ціна<span class="text-danger">*</span></label>
+                    <input id="price" type="text" class="form-control" th:field="${computer.price}">
+                </div>
+            </div>
+            <div class="input-group pe-4">
+                <span class="input-group-text">Опис</span>
+                <textarea class="form-control" th:field="|*{description}|"></textarea>
+            </div>
+
+
+            <div class="text-center mt-4 mb-3">
+                <label class="form-check-label fw-bold fs-5" for="isProcessorInstalled">
+                    <input class="form-check-input" type="checkbox" id="isProcessorInstalled"
+                           name="isProcessorInstalled" th:field="|*{ProcessorInstalled}|">
+                    Процесор
+                </label>
+            </div>
+            <div class="input-group mb-2 row">
+                <div class="col">
+                    <label class="mb-1">Виробник</label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="Intel">
+                            <input class="form-check-input" type="radio" name="processor_type" id="Intel"
+                                   th:field="|*{processorManufacturer}|" value="Intel">
+                            Intel
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="Amd">
+                            <input class="form-check-input" type="radio" name="processor_type" id="Amd"
+                                   th:field="|*{processorManufacturer}|" value="AMD">
+                            Amd
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="processor_model" class="mb-2">Назва моделі</label>
+                    <input id="processor_model" type="text" class="form-control" th:field="|*{processorModel}|">
+                </div>
+            </div>
+            <div>
+                <label for="processor_frequency" class="mb-2">Частота</label>
+                <input id="processor_frequency" type="text" class="form-control" placeholder="3.7 GHz"
+                       th:field="|*{processorFrequency}|">
+            </div>
+
+
+            <div class="text-center mt-4 mb-3">
+
+                <label class="form-check-label fw-bold fs-5" for="videoCard">
+                    <input class="form-check-input" type="checkbox" id="videoCard" value="true"
+                           th:field="|*{VideoCardInstalled}|">
+                    Відеокарта
+                </label>
+            </div>
+
+            <div class="input-group mb-3 row">
+                <div class="col">
+                    <label for="videoCard_manufacturer" class="mb-2">Виробник</label>
+                    <input id="videoCard_manufacturer" type="text" class="form-control"
+                           th:field="|*{videoCardManufacturer}|">
+                </div>
+                <div class="col">
+                    <label for="videoCard_model" class="mb-2">Назва моделі</label>
+                    <input id="videoCard_model" type="text" class="form-control" th:field="|*{videoCardModel}|">
+                </div>
+            </div>
+            <div class="input-group mb-3 row">
+                <div class="col">
+                    <label for="videoCard_vRam" class="mb-2">Пам'ять</label>
+                    <input id="videoCard_vRam" type="text" class="form-control" placeholder="6144 Mb" th:field="|*{vRam}|">
+                </div>
+                <div class="col">
+                    <label class="mb-2">Тип</label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="INTEGRATED">
+                        <input class="form-check-input" type="radio" name="videoCardType" id="INTEGRATED"
+                               th:field="|*{videoCardType}|" value="INTEGRATED">
+
+                            Вбудована
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="DISCRETE">
+                        <input class="form-check-input" type="radio" name="videoCardType" id="DISCRETE"
+                               th:field="|*{videoCardType}|" value="DISCRETE">
+                            Дискретна
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 mb-3">
+                <label class="form-check-label fw-bold fs-5" for="diskDrive">
+                    <input class="form-check-input" type="checkbox" id="diskDrive" th:field="|*{DiskDriveInstalled}|">
+                    Накопичувач
+                </label>
+            </div>
+
+            <div class="input-group mb-1 row">
+                <div class="col">
+                    <label for="diskDrive_name" class="mb-2">Назва</label>
+                    <input id="diskDrive_name" type="text" class="form-control" th:field="|*{diskDriveName}|">
+                </div>
+                <div class="col">
+                    <label class="mb-2">Тип</label>
+                    <div class="form-check">
+                        <label class="form-check-label" for="HDD">
+                        <input class="form-check-input" type="radio" name="diskDriveType" id="HDD"
+                               th:field="|*{diskDriveType}|" value="HDD">
+                            HDD
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="SSD">
+                        <input class="form-check-input" type="radio" name="diskDrive_Type" id="SSD"
+                               th:field="|*{diskDriveType}|" value="SSD">
+                            SSD
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <label for="diskDrive_capacity" class="mb-2">Пам'ять</label>
+            <div class="input-group mb-3">
+                <input id="diskDrive_capacity" type="text" class="form-control" placeholder="2 Tb"
+                       th:field="|*{diskDriveCapacity}|">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">Створити</button>
+
+        </form>
+    </section>
+</main>
+
+<footer class="text-muted d-flex justify-content-center py-2">
+    <a href="#" class="opacity-50 link-dark">Back to top</a>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
