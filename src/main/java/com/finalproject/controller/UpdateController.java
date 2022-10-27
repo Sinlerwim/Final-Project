@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -33,17 +34,20 @@ public class UpdateController {
 
     private final PersonService personService;
 
+    private final PasswordEncoder passwordEncoder;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateController.class);
 
 
     @Autowired
     public UpdateController(ComputerService computerService, ProcessorService processorService,
-                            VideoCardService videoCardService, DiskDriveService diskDriveService, PersonService personService) {
+                            VideoCardService videoCardService, DiskDriveService diskDriveService, PersonService personService, PasswordEncoder passwordEncoder) {
         this.computerService = computerService;
         this.processorService = processorService;
         this.videoCardService = videoCardService;
         this.diskDriveService = diskDriveService;
         this.personService = personService;
+        this.passwordEncoder = passwordEncoder;
     }
     @GetMapping("/computer/{id}")
     public ModelAndView getComputerUpdate(@PathVariable("id") String id, ModelAndView modelAndView) {

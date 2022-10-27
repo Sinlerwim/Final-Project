@@ -100,7 +100,7 @@
                                         <td>
 
                                             <a type="button" class="btn btn-warning"
-                                               th:href="@{/user/{id}(id = ${person.id})}">Редагувати</a>
+                                               th:href="@{~/update/user/{id}(id = ${person.id})}">Редагувати</a>
                                             <form class="my-2" th:action="@{~/delete/user/{id}(id = ${person.id})}" method="POST">
                                                 <button type="submit" class="btn btn-danger">Видалити</button>
                                             </form>

@@ -19,15 +19,10 @@ import java.util.List;
 public class MainController {
 
     private final ComputerService computerService;
-    private final PersonService personService;
-
-    private final InvoiceService invoiceService;
 
     @Autowired
-    public MainController(ComputerService computerService, PersonService personService, InvoiceService invoiceService) {
+    public MainController(ComputerService computerService) {
         this.computerService = computerService;
-        this.personService = personService;
-        this.invoiceService = invoiceService;
     }
 
     @GetMapping
