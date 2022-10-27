@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 @SpringBootApplication
 @EnableJpaRepositories("com.finalproject.repository")
-@EntityScan("com.FinalProject.model")
+@EntityScan("com.finalproject.model")
 public class FinalProjectApplication {
 
 
