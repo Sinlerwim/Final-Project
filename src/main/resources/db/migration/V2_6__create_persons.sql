@@ -1,0 +1,2 @@
+INSERT INTO public.person (id, address, city, email, name, password, phone_number, role) VALUES ('3b67728b-4c80-4754-b6bb-6c0251eac2c0', 'admin', 'admin', 'admin@admin.com', 'admin', '$2a$10$mCzZ72qkDbXnN30hvXO4WOYiMS72YHIMH53BILHT7cF6ls9yASCv2', 'admin', 'ADMIN');
+INSERT INTO public.person (id, address, city, email, name, password, phone_number, role) VALUES ('87c95cfa-5e42-4b3c-b4a8-ba56207a1188', 'sdfgdfsg', 'Kharkiv', 'user@user.com', 'User', '$2a$10$BM9K60whMn8i8pEhbZz7AOdpI1WA8gZxh8l3No9Mq4Xp99hxtqu0e', '+380662077323', 'USER');

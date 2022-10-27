@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -21,8 +19,11 @@ public class DiskDrive {
     private String id;
     @NotEmpty
     private String name;
+
     @NotNull
+    @Enumerated(EnumType.STRING)
     private DiskDriveType type;
+
     @NotEmpty
     private String capacity;
 }

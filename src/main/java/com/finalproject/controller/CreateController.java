@@ -1,6 +1,5 @@
 package com.finalproject.controller;
 
-import com.finalproject.config.ImageUtil;
 import com.finalproject.dto.ComputerCreationDTO;
 import com.finalproject.dto.DiskDriveCreationDTO;
 import com.finalproject.dto.ProcessorCreationDTO;
@@ -17,7 +16,11 @@ import com.finalproject.service.ComputerService;
 import com.finalproject.service.DiskDriveService;
 import com.finalproject.service.ProcessorService;
 import com.finalproject.service.VideoCardService;
+import com.finalproject.util.ImageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+@PreAuthorize("hasAuthority('ADMIN')")
 @Controller
 @RequestMapping("/create")
 public class CreateController {
@@ -39,6 +43,8 @@ public class CreateController {
     private final VideoCardService videoCardService;
 
     private final DiskDriveService diskDriveService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateController.class);
 
 
     @Autowired
@@ -63,7 +69,7 @@ public class CreateController {
     }
 
     @PostMapping("/computer")
-    public ModelAndView createComputer(@ModelAttribute @Valid ComputerCreationDTO computerCreationDTO, ModelAndView modelAndView,
+    public ModelAndView createComputer(@ModelAttribute("ComputerCreationDTO") @Valid ComputerCreationDTO computerCreationDTO, ModelAndView modelAndView,
                                BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -73,6 +79,7 @@ public class CreateController {
         } else {
             Computer computer = ComputerMapper.fromComputerCreationDTO(computerCreationDTO);
             String id = computerService.save(computer);
+            LOGGER.info("Created computer: " + computer);
             return new ModelAndView("redirect:/computers/computer/" + id);
         }
     }
@@ -96,6 +103,7 @@ public class CreateController {
         } else {
             Processor processor = ProcessorMapper.fromProcessorCreationDTO(processorCreationDTO);
             processorService.save(processor);
+            LOGGER.info("Created processor: " + processor);
             return new ModelAndView("redirect:/create/processor");
         }
     }
@@ -119,6 +127,7 @@ public class CreateController {
         } else {
             VideoCard videoCard = VideoCardMapper.fromVideoCardCreationDTO(videoCardCreationDTO);
             videoCardService.save(videoCard);
+            LOGGER.info("Created video card: " + videoCard);
             return new ModelAndView("redirect:/create/video-card");
         }
     }
@@ -142,6 +151,7 @@ public class CreateController {
         } else {
             DiskDrive diskDrive = DiskDriveMapper.fromDiskDriveCreationDTO(diskDriveCreationDTO);
             diskDriveService.save(diskDrive);
+            LOGGER.info("Created disk drive: " + diskDrive);
             return new ModelAndView("redirect:/create/disk-drive");
         }
     }

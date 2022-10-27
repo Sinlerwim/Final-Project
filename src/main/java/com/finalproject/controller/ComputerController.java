@@ -1,15 +1,17 @@
 package com.finalproject.controller;
 
 
-import com.finalproject.config.ConverterUtil;
-import com.finalproject.config.ImageUtil;
-import com.finalproject.dto.ComputerDTO;
-import com.finalproject.model.*;
+import com.finalproject.model.Computer;
 import com.finalproject.service.ComputerService;
+import com.finalproject.util.ConverterUtil;
+import com.finalproject.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -53,28 +55,28 @@ public class ComputerController {
         return computerService.createDefaultComputer();
     }
 
-    @GetMapping("/ids")
-    public Iterable<String> getAllIds() {
-        return computerService.getAllIds();
-    }
-
-    @GetMapping("/model")
-    public ComputerDTO findByModel(@RequestParam String model) {
-        return computerService.findByModel(model);
-    }
+//    @GetMapping("/ids")
+//    public Iterable<String> getAllIds() {
+//        return computerService.getAllIds();
+//    }
+//
+//    @GetMapping("/model")
+//    public ComputerDTO findByModel(@RequestParam String model) {
+//        return computerService.findByModel(model);
+//    }
 
 //    @PostMapping
 //    public String create(@RequestBody ComputerDTO computerDTO) {
 //        return computerService.create(computerDTO);
 //    }
 
-    @PutMapping("/update/{id}")
-    public ComputerDTO update(@PathVariable String id, @RequestBody ComputerDTO computerDTO) {
-        return computerService.update(id, computerDTO);
-    }
+//    @PutMapping("/update/{id}")
+//    public ComputerDTO update(@PathVariable String id, @RequestBody ComputerDTO computerDTO) {
+//        return computerService.update(id, computerDTO);
+//    }
 
-    @DeleteMapping
-    public void delete(@RequestParam String id) {
-        computerService.delete(id);
-    }
+//    @DeleteMapping
+//    public void delete(@RequestParam String id) {
+//        computerService.delete(id);
+//    }
 }

@@ -1,0 +1,273 @@
+<!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Final Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+</head>
+<body class="bg-light">
+<section class="vh-100 ">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <h2>Мої замовлення </h2>
+
+                <div class="card mb-4" th:each="invoice,iterStat : ${invoices}">
+                    <div class="p-4">
+
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-2">
+                                <a th:href="@{/computers/computer/{id}(id=${invoice.getProducts().firstKey().id})}">
+                                    <img class="d-block" style="object-fit: contain; max-height: 100px;"
+                                         th:src="|data:image/jpg;base64,
+                                          ${imageUtil.getFirstImage(invoice.getProducts().firstKey().images)}|"
+                                         alt="product.jpg"/>
+                                </a>
+                            </div>
+                            <div class="col d-flex justify-content-center text-center">
+                                <div class="row">
+                                    <p class="small text-muted mb-4 pb-2">Дата створення</p>
+                                    <div class="col">
+                                        <p class="lead fw-normal mb-0" th:text="${invoice.getDateCreated()}">
+                                            23.05.2022</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-center text-center">
+                                <div class="row">
+                                    <p class="small text-muted mb-4 pb-2">Кількість товарів</p>
+                                    <div class="col">
+                                        <p class="lead fw-normal mb-0" th:text="${invoice.getTotalNumberOfProducts()}">
+                                            n</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                <div>
+                                    <p class="small text-muted mb-4 pb-2">Вартість</p>
+                                    <p class="lead fw-normal mb-0"
+                                       th:text="'₴' + ${invoice.getTotalPrice()}">₴nnnn</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body text-center">
+                        <div class="container">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div class="col-12">
+                                    <div class="card card-stepper text-black" style="border-radius: 16px;">
+
+                                        <div class="card-body p-5">
+
+                                            <ul id="progressbar-2"
+                                                class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
+                                                <li class="step0 text-center" id="step1"
+                                                    th:classappend="${invoice.getInvoiceStatus().getNumberOfStep() >= 1} ? 'active' : ''"></li>
+                                                <!--                                                    th:each="product : ${invoices.get(__${}__)}"-->
+                                                <li class="step0 text-center" id="step2"
+                                                    th:classappend="${invoice.getInvoiceStatus().getNumberOfStep() >= 2} ? 'active' : ''"></li>
+                                                <li class="step0 text-center" id="step3"
+                                                    th:classappend="${invoice.getInvoiceStatus().getNumberOfStep() >= 3} ? 'active' : ''"></li>
+                                                <li class="step0 text-muted text-end" id="step4"
+                                                    th:classappend="${invoice.getInvoiceStatus().getNumberOfStep() == 4} ? 'active' : ''"></li>
+                                            </ul>
+
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fas fa-clipboard-list fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Замовлення</p>
+                                                        <p class="fw-bold mb-0">Опрацьовано</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fas fa-box-open fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Замовлення</p>
+                                                        <p class="fw-bold mb-0">Пакується</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fas fa-shipping-fast fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Замовлення</p>
+                                                        <p class="fw-bold mb-0">В дорозі</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex align-items-center">
+                                                    <i class="fas fa-home fa-3x me-lg-4 mb-3 mb-lg-0"></i>
+                                                    <div>
+                                                        <p class="fw-bold mb-1">Замовлення</p>
+                                                        <p class="fw-bold mb-0">Доставлено</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h5 class="text-center mt-3"> Список товарів</h5>
+                            <div class="col">
+                                <p class="text-muted">Назва</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-muted">Кількість</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-muted">Ціна</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-muted">Усього</p>
+                            </div>
+                        </div>
+                        <div class="row" th:each="product : ${invoice.getProducts()}">
+                            <div class="col">
+                                <p th:text="${product.key.manufacturer} + ' ' + ${product.key.model}">Назва</p>
+                            </div>
+                            <div class="col">
+                                <p th:text="${product.value}">Кількість</p>
+                            </div>
+                            <div class="col">
+                                <p th:text="'₴' + ${product.key.price}">Ціна</p>
+                            </div>
+                            <div class="col">
+                                <p th:text="'₴' + ${product.key.price * product.value}">Усього</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mb-5">
+                    <a type="button" class="btn btn-light btn-lg me-2" th:href="@{/}">
+                        Повернутися на головну
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<style>
+    .card-stepper {
+        z-index: 0
+    }
+
+    #progressbar-2 {
+        color: #455A64;
+    }
+
+    #progressbar-2 li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 33.33%;
+        float: left;
+        position: relative;
+    }
+
+    #progressbar-2 #step1:before {
+        /*content: '\f058';*/
+        content: '\f111';
+        font-family: "Font Awesome 5 Free";
+        color: #fff;
+        width: 37px;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    #progressbar-2 #step2:before {
+        content: '\f111';
+        font-family: "Font Awesome 5 Free";
+        color: #fff;
+        width: 37px;
+    }
+
+    #progressbar-2 #step3:before {
+        content: '\f111';
+        font-family: "Font Awesome 5 Free";
+        color: #fff;
+        width: 37px;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    #progressbar-2 #step4:before {
+        content: '\f111';
+        font-family: "Font Awesome 5 Free";
+        color: #fff;
+        width: 37px;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    #progressbar-2 li:before {
+        line-height: 37px;
+        display: block;
+        font-size: 12px;
+        background: #dcd8cb;
+        border-radius: 50%;
+    }
+
+    #progressbar-2 li:after {
+        content: '';
+        width: 100%;
+        height: 10px;
+        background: #dcd8cb;
+        position: absolute;
+        left: 0%;
+        right: 0%;
+        top: 15px;
+        z-index: -1;
+    }
+
+    #progressbar-2 li:nth-child(1):after {
+        left: 1%;
+        width: 100%
+    }
+
+    #progressbar-2 li:nth-child(2):after {
+        left: 1%;
+        width: 100%;
+    }
+
+    #progressbar-2 li:nth-child(3):after {
+        left: 1%;
+        width: 100%;
+        background: #dcd8cb;
+    }
+
+    #progressbar-2 li:nth-child(4) {
+        left: 0;
+        width: 37px;
+    }
+
+    #progressbar-2 li:nth-child(4):after {
+        left: 0;
+        width: 0;
+    }
+
+    #progressbar-2 li.active:before,
+    #progressbar-2 li.active:after {
+        background: #ffc005;
+    }
+</style>
+</body>
+</html>

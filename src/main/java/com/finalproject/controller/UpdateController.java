@@ -1,25 +1,24 @@
 package com.finalproject.controller;
 
-import com.finalproject.config.ImageUtil;
-import com.finalproject.dto.ComputerCreationDTO;
 import com.finalproject.dto.ComputerUpdateDTO;
 import com.finalproject.mapper.ComputerMapper;
-import com.finalproject.model.Computer;
-import com.finalproject.model.DiskDrive;
-import com.finalproject.model.Processor;
-import com.finalproject.model.VideoCard;
-import com.finalproject.service.ComputerService;
-import com.finalproject.service.DiskDriveService;
-import com.finalproject.service.ProcessorService;
-import com.finalproject.service.VideoCardService;
+import com.finalproject.model.*;
+import com.finalproject.service.*;
+import com.finalproject.util.ImageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
+@PreAuthorize("hasAuthority('ADMIN')")
 @Controller
 @RequestMapping("/update")
 public class UpdateController {
@@ -32,14 +31,19 @@ public class UpdateController {
 
     private final DiskDriveService diskDriveService;
 
+    private final PersonService personService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateController.class);
+
 
     @Autowired
     public UpdateController(ComputerService computerService, ProcessorService processorService,
-                            VideoCardService videoCardService, DiskDriveService diskDriveService) {
+                            VideoCardService videoCardService, DiskDriveService diskDriveService, PersonService personService) {
         this.computerService = computerService;
         this.processorService = processorService;
         this.videoCardService = videoCardService;
         this.diskDriveService = diskDriveService;
+        this.personService = personService;
     }
     @GetMapping("/computer/{id}")
     public ModelAndView getComputerUpdate(@PathVariable("id") String id, ModelAndView modelAndView) {
@@ -64,6 +68,7 @@ public class UpdateController {
         } else {
             Computer computer = ComputerMapper.fromComputerUpdateDTO(computerUpdateDTO);
             String id = computerService.save(computer);
+            LOGGER.info("Updated computer: " + computer);
             return new ModelAndView("redirect:/computers/computer/" + id);
         }
     }
@@ -87,6 +92,7 @@ public class UpdateController {
             return modelAndView;
         } else {
             String id = processorService.save(processor);
+            LOGGER.info("Updated processor: " + processor);
             return new ModelAndView("redirect:/create/processor");
         }
     }
@@ -110,6 +116,7 @@ public class UpdateController {
             return modelAndView;
         } else {
             String id = videoCardService.save(videoCard);
+            LOGGER.info("Updated video card: " + videoCard);
             return new ModelAndView("redirect:/create/video-card");
         }
     }
@@ -133,7 +140,45 @@ public class UpdateController {
             return modelAndView;
         } else {
             String id = diskDriveService.save(diskDrive);
+            LOGGER.info("Updated disk drive: " + diskDrive);
             return new ModelAndView("redirect:/create/disk-drive");
         }
+    }
+
+    @GetMapping("/user/{id}")
+    public ModelAndView getPersonalDataAsAdmin(@PathVariable("id") String id, ModelAndView modelAndView) {
+        final Person person = personService.getById(id);
+        modelAndView.addObject("person", person);
+        modelAndView.setViewName("adminUserInfo");
+        return modelAndView;
+    }
+
+    @PostMapping("/user")
+    public ModelAndView updatePersonAsAdmin(@ModelAttribute @Valid Person person,
+                                            ModelAndView modelAndView, BindingResult bindingResult) {
+        Person currentPerson = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("person", person);
+            modelAndView.setViewName("adminUserInfo");
+            return modelAndView;
+        }
+        if (!currentPerson.getId().equals(person.getId())) {
+            personService.update(person);
+        } else {
+            person.setRole(currentPerson.getRole());
+            personService.update(person);
+        }
+        LOGGER.info("Updated user: " + currentPerson + "\n to: " + person);
+        return new ModelAndView("redirect:/update/user/" + person.getId());
+    }
+
+    @GetMapping("/users")
+    public ModelAndView getUsers(ModelAndView modelAndView) {
+        List<Person> users = personService.getAllByRole(Role.USER);
+        List<Person> admins = personService.getAllByRole(Role.ADMIN);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("admins", admins);
+        modelAndView.setViewName("adminUsers");
+        return modelAndView;
     }
 }

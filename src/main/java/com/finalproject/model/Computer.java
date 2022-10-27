@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Computer {
+public class Computer implements Comparable<Computer> {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -50,4 +50,9 @@ public class Computer {
     @ManyToOne
     @JoinColumn(name="diskdrive_id")
     private DiskDrive diskDrive;
+
+    @Override
+    public int compareTo(Computer computer) {
+        return Integer.compare(this.price, computer.price);
+    }
 }

@@ -89,7 +89,7 @@ public class ComputerService {
         computer.setRam("4096 Mb");
         computer.setRamType("DDR4");
         computer.setOperatingSystem("Windows 10");
-        computer.setPrice(20000);
+        computer.setPrice(random.nextInt(5000,20000));
         computer.setDescription("Default PC");
         byte[] img1Bytes = FileUtils.readFileToByteArray(new File("src/main/resources/static/images/computer.jpg"));
         byte[] img2Bytes = FileUtils.readFileToByteArray(new File("src/main/resources/static/images/smartphone.jpg"));
