@@ -59,7 +59,6 @@ public class PersonService implements UserDetailsService {
         if (person.getPassword() == null) {
             throw new IllegalArgumentException("Password is incorrect");
         }
-        person.setPassword(passwordEncoder.encode(person.getPassword()));
         personRepository.save(person);
     }
 

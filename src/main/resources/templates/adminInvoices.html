@@ -81,7 +81,7 @@
                                     <tr th:each="invoice : ${registeredInvoices}">
                                         <td th:text="${invoice.dateCreated}"></td>
                                         <td>
-                                            <a th:href="@{update/user/{id}(id = ${invoice.person.id})}"
+                                            <a th:href="@{~/update/user/{id}(id = ${invoice.person.id})}"
                                                th:text="${invoice.person.email}" class="link-success">
                                             </a>
                                         </td>
@@ -116,7 +116,7 @@
                                     <tr th:each="invoice : ${processedInvoices}">
                                         <td th:text="${invoice.dateCreated}"></td>
                                         <td>
-                                            <a th:href="@{update/user/{id}(id = ${invoice.person.id})}"
+                                            <a th:href="@{~/update/user/{id}(id = ${invoice.person.id})}"
                                                th:text="${invoice.person.email}" class="link-success">
                                             </a>
                                         </td>
@@ -150,7 +150,7 @@
                                     <tr th:each="invoice : ${shippedInvoices}">
                                         <td th:text="${invoice.dateCreated}"></td>
                                         <td>
-                                            <a th:href="@{update/user/{id}(id = ${invoice.person.id})}"
+                                            <a th:href="@{~/update/user/{id}(id = ${invoice.person.id})}"
                                                th:text="${invoice.person.email}" class="link-success">
                                             </a>
                                         </td>
@@ -184,7 +184,7 @@
                                     <tr th:each="invoice : ${enRouteInvoices}">
                                         <td th:text="${invoice.dateCreated}"></td>
                                         <td>
-                                            <a th:href="@{update/user/{id}(id = ${invoice.person.id})}"
+                                            <a th:href="@{~/update/user/{id}(id = ${invoice.person.id})}"
                                                th:text="${invoice.person.email}" class="link-success">
                                             </a>
                                         </td>
@@ -218,7 +218,7 @@
                                     <tr th:each="invoice : ${arrivedInvoices}">
                                         <td th:text="${invoice.dateCreated}"></td>
                                         <td>
-                                            <a th:href="@{update/user/{id}(id = ${invoice.person.id})}"
+                                            <a th:href="@{~/update/user/{id}(id = ${invoice.person.id})}"
                                                th:text="${invoice.person.email}" class="link-success">
                                             </a>
                                         </td>

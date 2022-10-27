@@ -172,7 +172,7 @@ public class UpdateController {
             person.setRole(currentPerson.getRole());
             personService.update(person);
         }
-        LOGGER.info("Updated user: " + currentPerson + "\n to: " + person);
+        LOGGER.info("Updated user: " + person);
         return new ModelAndView("redirect:/update/user/" + person.getId());
     }
 
