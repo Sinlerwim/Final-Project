@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -167,18 +168,20 @@ public final class ComputerMapper {
         computer.setPrice(updateDTO.getPrice());
 
         List<Image> Images = imageService.getImagesByComputerId(updateDTO.getId());
-        if (updateDTO.getNewImages() != null) {
-            List<Image> newImages = updateDTO.getNewImages().stream().map(multipartFile -> {
-                try {
-                    Image image = new Image();
-                    image.setBytes(multipartFile.getBytes());
-                    return image;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }).collect(Collectors.toList());
-            Images.addAll(newImages);
-        }
+        List<Image> newImages = updateDTO.getNewImages().stream().map(multipartFile -> {
+                    try {
+                        if (!multipartFile.isEmpty()) {
+                            Image image = new Image();
+                            image.setBytes(multipartFile.getBytes());
+                            return image;
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return null;
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        Images.addAll(newImages);
         computer.setImages(Images);
         computer.setProcessor(getProcessorById(updateDTO.getProcessorId()));
         computer.setVideoCard(getVideoCardById(updateDTO.getVideoCardId()));
