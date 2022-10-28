@@ -166,6 +166,7 @@ public final class ComputerMapper {
         computer.setRamType(updateDTO.getRamType());
         computer.setOperatingSystem(updateDTO.getOperatingSystem());
         computer.setPrice(updateDTO.getPrice());
+        computer.setDescription(updateDTO.getDescription());
 
         List<Image> Images = imageService.getImagesByComputerId(updateDTO.getId());
         List<Image> newImages = updateDTO.getNewImages().stream().map(multipartFile -> {
