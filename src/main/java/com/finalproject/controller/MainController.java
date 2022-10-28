@@ -2,10 +2,7 @@ package com.finalproject.controller;
 
 
 import com.finalproject.model.Computer;
-import com.finalproject.model.Person;
 import com.finalproject.service.ComputerService;
-import com.finalproject.service.InvoiceService;
-import com.finalproject.service.PersonService;
 import com.finalproject.util.ImageUtil;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +28,6 @@ public class MainController {
         modelAndView.addObject("imageUtil", new ImageUtil());
         modelAndView.addObject("computers", computers);
         modelAndView.setViewName("index");
-        return modelAndView;
-    }
-
-    @GetMapping("/login")
-    public ModelAndView getLogin(ModelAndView modelAndView) {
-        final Person person = new Person();
-        modelAndView.addObject("person", person);
-        modelAndView.setViewName("login");
         return modelAndView;
     }
 }

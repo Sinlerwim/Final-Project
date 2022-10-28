@@ -32,6 +32,7 @@ public class UserController {
         return modelAndView;
     }
 
+
     @PostMapping("/registration")
     public ModelAndView registerNewPerson(@ModelAttribute @Valid Person person,
                                           ModelAndView modelAndView, BindingResult bindingResult) {
@@ -43,6 +44,14 @@ public class UserController {
             personService.save(person);
             return new ModelAndView("redirect:/");
         }
+    }
+
+    @GetMapping("/login")
+    public ModelAndView getLogin(ModelAndView modelAndView) {
+        final Person person = new Person();
+        modelAndView.addObject("person", person);
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 
     @PreAuthorize("hasAuthority('USER')")
