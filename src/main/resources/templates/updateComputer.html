@@ -76,9 +76,11 @@
                              th:src="|data:image/jpg;base64, ${imageUtil.getImgData(image)}|"
                              alt="image.jpg"/>
                         <div class="card-body text-center">
-                            <a type="button" class="btn btn-outline-danger">
+                            <a type="button" class="btn btn-outline-danger"
+                               th:href="@{/delete/image/{computerId}/{imageId}(computerId=${computer.id},imageId=${image.id})}">
                                 Видалити
                             </a>
+
                         </div>
                     </div>
                 </div>

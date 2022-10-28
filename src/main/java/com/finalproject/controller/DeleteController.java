@@ -1,5 +1,4 @@
 package com.finalproject.controller;
-
 import com.finalproject.model.Computer;
 import com.finalproject.model.Person;
 import com.finalproject.service.*;
@@ -30,15 +29,18 @@ public class DeleteController {
 
     private final PersonService personService;
 
+    private final ImageService imageService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteController.class);
 
     @Autowired
-    public DeleteController(ComputerService computerService, ProcessorService processorService, VideoCardService videoCardService, DiskDriveService diskDriveService, PersonService personService) {
+    public DeleteController(ComputerService computerService, ProcessorService processorService, VideoCardService videoCardService, DiskDriveService diskDriveService, PersonService personService, ImageService imageService) {
         this.computerService = computerService;
         this.processorService = processorService;
         this.videoCardService = videoCardService;
         this.diskDriveService = diskDriveService;
         this.personService = personService;
+        this.imageService = imageService;
     }
 
     @GetMapping("/computer/{id}")
@@ -55,6 +57,12 @@ public class DeleteController {
         computerService.delete(id);
         LOGGER.info("Deleted computer: " + id);
         return new ModelAndView("redirect:/computers?page=1");
+    }
+
+    @GetMapping("/image/{computerId}/{imageId}")
+    public ModelAndView deleteImage(@PathVariable("computerId") String computerId, @PathVariable("imageId") String imageId) {
+        imageService.deleteImageById(imageId);
+        return new ModelAndView("redirect:/update/computer/" + computerId);
     }
 
     @PostMapping("/processor/{id}")
