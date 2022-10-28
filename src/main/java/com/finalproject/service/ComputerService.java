@@ -50,6 +50,10 @@ public class ComputerService {
         return computerRepository.findAll(PageRequest.of(numberOfPage, 9));
     }
 
+    public Page<Computer> findByOperatingSystem(String operatingSystem, int numberOfPage) {
+        return computerRepository.findByCriteria(operatingSystem, PageRequest.of(numberOfPage, 9));
+    }
+
     public Iterable<String> getAllIds() {
         return StreamSupport.stream(computerRepository.findAll().spliterator(), false)
                 .map(Computer::getId)

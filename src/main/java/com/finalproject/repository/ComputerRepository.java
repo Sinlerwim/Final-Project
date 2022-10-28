@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ComputerRepository extends JpaRepository<Computer, String> {
+public interface ComputerRepository extends JpaRepository<Computer, String>, CustomizedComputerRepository {
     Optional<Computer> findByModel(String model);
 
     @Query(value = "SELECT * FROM public.computer order by random() desc limit :limit", nativeQuery = true)
-    public List<Computer> getRandomN(@Param("limit") int limit);
+    List<Computer> getRandomN(@Param("limit") int limit);
+
+    @Query(value = "SELECT DISTINCT operating_system FROM public.computer", nativeQuery = true)
+    List<String> getAllOperatingSystems();
 }
