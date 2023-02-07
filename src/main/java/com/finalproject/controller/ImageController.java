@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/image")
+@RequestMapping("/images")
 @Controller
 public class ImageController {
 

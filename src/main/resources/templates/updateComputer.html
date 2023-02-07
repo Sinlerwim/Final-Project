@@ -17,7 +17,7 @@
     <h4 class="text-center fw-light">Компьютер</h4>
     <section class="py-4 px-3">
         <div class="container">
-            <form th:action="@{/update/computer}" th:object="${computer}" th:method="PUT"
+            <form th:action="@{/computers/update}" th:method="PUT" th:object="${computer}"
                   enctype="multipart/form-data">
                 <h5 class="text-center fw-bold mt-2 mb-4">Загальні характеристики</h5>
                 <div class="input-group mb-3 row has-validation">
@@ -77,7 +77,7 @@
                              alt="image.jpg"/>
                         <div class="card-body text-center">
                             <a type="button" class="btn btn-outline-danger"
-                               th:href="@{/delete/image/{computerId}/{imageId}(computerId=${computer.id},imageId=${image.id})}">
+                               th:href="@{/images/delete/{computerId}/{imageId}(computerId=${computer.id},imageId=${image.id})}">
                                 Видалити
                             </a>
 
@@ -94,7 +94,7 @@
         <div class="text-center mt-4 mb-3">
             <h5 class="fw-bold">Процесор</h5>
             <div class="d-flex justify-content-between align-items-center float-end">
-                <a th:href="@{/create/processor}" target="_blank"
+                <a target="_blank" th:href="@{/processors/create}"
                    type="button" class="btn btn-outline-primary">Додати процесор</a>
             </div>
         </div>
@@ -135,7 +135,7 @@
         <div class="text-center mt-4 mb-3">
             <h5 class="fw-bold">Відеокарта</h5>
             <div class="d-flex justify-content-between align-items-center float-end">
-                <a th:href="@{/create/video-card}" target="_blank"
+                <a target="_blank" th:href="@{/video-cards/create}"
                    type="button" class="btn btn-outline-primary">Додати відеокарту</a>
             </div>
         </div>
@@ -180,7 +180,7 @@
         <div class="text-center mt-4 mb-3">
             <h5 class="fw-bold">Накопичувач</h5>
             <div class="d-flex justify-content-between align-items-center float-end">
-                <a th:href="@{/create/disk-drive}" target="_blank"
+                <a target="_blank" th:href="@{/disk-drives/create}"
                    type="button" class="btn btn-outline-primary">Додати накопичувач</a>
             </div>
         </div>

@@ -124,7 +124,7 @@
                 </div>
             </div>
 
-            <form th:action="@{/delete/computer/{id}(id=${computer.id})}" th:method="POST">
+            <form th:action="@{/computers/delete/{id}(id=${computer.id})}" th:method="POST">
                 <button type="submit" class="btn btn-danger btn-lg mt-4 justify-content-center">Видалити</button>
             </form>
 

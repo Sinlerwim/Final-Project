@@ -17,7 +17,8 @@
     <h4 class="text-center fw-light">Процесор</h4>
     <section class="py-4 px-3">
         <div class="container">
-            <form th:action="@{/create/processor}" th:object="${processor}" method="post" enctype="multipart/form-data">
+            <form enctype="multipart/form-data" method="post" th:action="@{/processors/create}"
+                  th:object="${processor}">
                 <div class="input-group mb-2 row">
                     <div class="col">
                         <label class="mb-1">Виробник<span class="text-danger">*</span></label>

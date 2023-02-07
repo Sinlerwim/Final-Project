@@ -17,7 +17,7 @@
     <h4 class="text-center fw-light">Накопичувач</h4>
     <section class="py-4 px-3">
         <div class="container">
-            <form th:action="@{/create/disk-drive}" th:object="${diskDrive}" method="post"
+            <form method="post" th:action="@{/disk-drives/create}" th:object="${diskDrive}"
                   enctype="multipart/form-data">
                 <div class="input-group mb-2 row">
                     <div class="col">

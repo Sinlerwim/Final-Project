@@ -36,7 +36,7 @@
                sec:authorize="hasAuthority('ADMIN')">
                 Усі замовлення</a>
 
-            <a type="button" class="btn btn-outline-light me-2" th:href="@{/update/users}"
+            <a class="btn btn-outline-light me-2" th:href="@{/users}" type="button"
                sec:authorize="hasAuthority('ADMIN')">
                 Користувачі</a>
 
@@ -46,10 +46,10 @@
                     Створення/видалення
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" th:href="@{/create/computer}">Створити компьютер</a></li>
-                    <li><a class="dropdown-item" th:href="@{/create/processor}">Створити/видалити процессор</a></li>
-                    <li><a class="dropdown-item" th:href="@{/create/video-card}">Створити/видалити відеокарту</a></li>
-                    <li><a class="dropdown-item" th:href="@{/create/disk-drive}">Створити/видалити накопичувач</a></li>
+                    <li><a class="dropdown-item" th:href="@{/computers/create}">Створити компьютер</a></li>
+                    <li><a class="dropdown-item" th:href="@{/processors/create}">Створити/видалити процессор</a></li>
+                    <li><a class="dropdown-item" th:href="@{/video-cards/create}">Створити/видалити відеокарту</a></li>
+                    <li><a class="dropdown-item" th:href="@{/disk-drives/create}">Створити/видалити накопичувач</a></li>
                 </ul>
             </div>
 

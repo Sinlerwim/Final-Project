@@ -17,7 +17,7 @@
     <h4 class="text-center fw-light">Відеокарта</h4>
     <section class="py-4 px-3">
         <div class="container">
-            <form th:action="@{/update/video-card/__${videoCard.id}__}" th:object="${videoCard}" method="post"
+            <form method="post" th:action="@{/video-cards/update/__${videoCard.id}__}" th:object="${videoCard}"
                   enctype="multipart/form-data">
                 <div class="input-group mb-3 row has-validation">
                     <div class="col">
