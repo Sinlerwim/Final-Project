@@ -15,15 +15,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class FinalProjectApplication {
 
 
+    private static ComputerService computerService;
 
-//    private static ComputerService computerService;
-//
-//    private static PersonService personService;
-//    @Autowired
-//    public FinalProjectApplication(ComputerService computerService, PersonService personService) {
-//        FinalProjectApplication.computerService = computerService;
-//        FinalProjectApplication.personService = personService;
-//    }
+    private static PersonService personService;
+
+    @Autowired
+    public FinalProjectApplication(ComputerService computerService, PersonService personService) {
+        FinalProjectApplication.computerService = computerService;
+        FinalProjectApplication.personService = personService;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(FinalProjectApplication.class, args);
