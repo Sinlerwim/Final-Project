@@ -50,6 +50,10 @@ public class ComputerService {
         return computerRepository.findAll(PageRequest.of(numberOfPage, 9));
     }
 
+    public Page<Computer> findPageOfNotHidden(int numberOfPage) {
+        return computerRepository.findByIsHiddenFalse(PageRequest.of(numberOfPage, 9));
+    }
+
     public Page<Computer> findByOperatingSystem(String operatingSystem, int numberOfPage) {
         return computerRepository.findByCriteria(operatingSystem, PageRequest.of(numberOfPage, 9));
     }
@@ -142,5 +146,9 @@ public class ComputerService {
 
     public Computer findById(String id) {
         return computerRepository.findById(id).get();
+    }
+
+    public void hideById(String id) {
+        computerRepository.hideComputerById(id);
     }
 }

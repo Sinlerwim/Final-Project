@@ -20,6 +20,8 @@ public class Computer implements Comparable<Computer> {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    private boolean isHidden = false;
+
     @NotEmpty
     private String manufacturer;
 
@@ -50,6 +52,7 @@ public class Computer implements Comparable<Computer> {
     @ManyToOne
     @JoinColumn(name="diskdrive_id")
     private DiskDrive diskDrive;
+
 
     @Override
     public int compareTo(Computer computer) {

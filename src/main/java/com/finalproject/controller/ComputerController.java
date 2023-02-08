@@ -44,7 +44,7 @@ public class ComputerController {
 
     @GetMapping(params = {"page"})
     public ModelAndView getAll(@RequestParam("page") int numberOfPage, ModelAndView modelAndView) {
-        final Page<Computer> page = computerService.findPage(numberOfPage - 1);
+        final Page<Computer> page = computerService.findPageOfNotHidden(numberOfPage - 1);
         modelAndView.addObject("converterUtil", new ConverterUtil());
         modelAndView.addObject("imageUtil", new ImageUtil());
         modelAndView.addObject("posts", page);
@@ -135,10 +135,11 @@ public class ComputerController {
     @PostMapping("/delete/{id}")
     public ModelAndView deleteComputer(@PathVariable("id") String id) {
         if (invoiceService.isComputerUsedInInvoicesById(id)) {
-
+            computerService.hideById(id);
+        } else {
+            computerService.delete(id);
+            LOGGER.info("Deleted computer: " + id);
         }
-        computerService.delete(id);
-        LOGGER.info("Deleted computer: " + id);
         return new ModelAndView("redirect:/computers?page=1");
     }
 

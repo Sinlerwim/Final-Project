@@ -1,5 +1,6 @@
 package com.finalproject;
 
+import com.finalproject.model.Person;
 import com.finalproject.service.ComputerService;
 import com.finalproject.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,17 @@ public class FinalProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FinalProjectApplication.class, args);
-//        for (int i =0; i<9; i++) {
-//            computerService.createDefaultComputer();
-//        }
-//        Person admin = new Person();
-//        admin.setPassword("admin");
-//        admin.setEmail("admin@admin.com");
-//        admin.setCity("admin");
-//        admin.setPhoneNumber("admin");
-//        admin.setAddress("admin");
-//        admin.setName("admin");
-//        personService.save(admin);
+        for (int i = 0; i < 9; i++) {
+            computerService.createDefaultComputer();
+        }
+        Person admin = new Person();
+        admin.setPassword("admin");
+        admin.setEmail("admin@admin.com");
+        admin.setCity("admin");
+        admin.setPhoneNumber("admin");
+        admin.setAddress("admin");
+        admin.setName("admin");
+        personService.save(admin);
     }
 
 }
