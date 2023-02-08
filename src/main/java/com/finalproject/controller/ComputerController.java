@@ -5,10 +5,7 @@ import com.finalproject.dto.ComputerCreationDTO;
 import com.finalproject.dto.ComputerUpdateDTO;
 import com.finalproject.mapper.ComputerMapper;
 import com.finalproject.model.Computer;
-import com.finalproject.service.ComputerService;
-import com.finalproject.service.DiskDriveService;
-import com.finalproject.service.ProcessorService;
-import com.finalproject.service.VideoCardService;
+import com.finalproject.service.*;
 import com.finalproject.util.ConverterUtil;
 import com.finalproject.util.ImageUtil;
 import org.slf4j.Logger;
@@ -32,15 +29,17 @@ public class ComputerController {
     private final VideoCardService videoCardService;
     private final DiskDriveService diskDriveService;
     private final ProcessorService processorService;
+    private final InvoiceService invoiceService;
 
 
     @Autowired
     public ComputerController(ComputerService computerService, ProcessorService processorService,
-                              VideoCardService videoCardService, DiskDriveService diskDriveService) {
+                              VideoCardService videoCardService, DiskDriveService diskDriveService, InvoiceService invoiceService) {
         this.computerService = computerService;
         this.processorService = processorService;
         this.videoCardService = videoCardService;
         this.diskDriveService = diskDriveService;
+        this.invoiceService = invoiceService;
     }
 
     @GetMapping(params = {"page"})
@@ -135,6 +134,9 @@ public class ComputerController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/delete/{id}")
     public ModelAndView deleteComputer(@PathVariable("id") String id) {
+        if (invoiceService.isComputerUsedInInvoicesById(id)) {
+
+        }
         computerService.delete(id);
         LOGGER.info("Deleted computer: " + id);
         return new ModelAndView("redirect:/computers?page=1");

@@ -53,4 +53,8 @@ public class InvoiceService {
     public Invoice getById(String id) {
         return invoiceRepository.findById(id).get();
     }
+
+    public boolean isComputerUsedInInvoicesById(String id) {
+        return invoiceRepository.existsByComputerById(id);
+    }
 }
